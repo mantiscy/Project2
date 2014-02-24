@@ -127,11 +127,8 @@ class LocationsController < ApplicationController
   # DELETE /locations/1.json
   def destroy
 
-    if request.xhr?
-      @location = Location.where("name = ?", params[:name])
-    else
-      @location = Location.find(params[:id])
-    end
+    @location = Location.find(params[:id])
+
     @location.destroy
     @locations = Location.all
 

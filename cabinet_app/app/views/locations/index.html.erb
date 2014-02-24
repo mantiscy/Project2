@@ -117,42 +117,6 @@
       console.log(locs);
 
       addCurrentLocMarker(map);
-      
-      var l = {};
-      // for (i=0; i<locs.length; i++)
-      // {
-      //   locs[i].markerPlaced = false;
-      //   console.log(locs[i].name + " << " + locs[i].markerPlaced);
-      // }
-      // for (i=0; i<locs.length; i++)
-      // {
-      //     generate_list_by_distance(locs[i]);
-
-      //     if(locs[i].markerPlaced == false)
-      //     {
-      //       for(var j=0; j<sorted_locs_by_distance.length; j++)
-      //       {
-      //         if(sorted_locs_by_distance[j].distance < 0.01)
-      //         {
-      //           if(sorted_locs_by_distance[j].markerPlaced == true)
-      //           {
-      //             //addMarker(locs[i], map, infowindow);
-      //             locs[i].markerPlaced = true;
-      //           }
-      //           else
-      //           {
-      //             addMarker(locs[i], map, infowindow);
-      //             locs[i].markerPlaced = true;
-      //           }
-      //         }
-      //         else
-      //           break;
-      //       }
-      //       if(locs[i].markerPlaced == false)
-      //         addMarker(locs[i], map, infowindow);
-      //     }
-
-      // }
 
       for (i=0; i<locs.length; i++)
       {
@@ -174,21 +138,21 @@
         //console.log(marker.position);
 
         //Display location name when hovering over a marker
-        google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
-          return function() {
-            infowindow.setContent('<div id="content">'+
-              '<div id="siteNotice">'+
-              '</div>'+
-              '<h2>Name: '+ loc.name + '</h1>'+
-              '<h2>Location: ' + loc.address + '</h2>' +
-              '<h2>Password: ' + loc.pwd + '</h2>' +
-              '<div id="bodyContent">'+
-              '<p><a href=#>Edit</a> | <a href=# class="start_delete">Delete</a> | <a href=# class="start_share">Share</a></p>'+
-              '</div>'+
-              '</div>');
-            infowindow.open(map, marker);
-          }
-        })(marker, i));
+        // google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+        //   return function() {
+        //     infowindow.setContent('<div id="content">'+
+        //       '<div id="siteNotice">'+
+        //       '</div>'+
+        //       '<h2>Name: '+ loc.name + '</h1>'+
+        //       '<h2>Location: ' + loc.address + '</h2>' +
+        //       '<h2>Password: ' + loc.pwd + '</h2>' +
+        //       '<div id="bodyContent">'+
+        //       '<p><a href=#>Edit</a> | <a href=# class="start_delete">Delete</a> | <a href=# class="start_share">Share</a></p>'+
+        //       '</div>'+
+        //       '</div>');
+        //     infowindow.open(map, marker);
+        //   }
+        // })(marker, i));
 
         
 
@@ -225,6 +189,12 @@
                   var div = $(this).closest('div');
                   console.log(div[0].id);
                   editNetwork(div[0].id)
+              });
+
+              $('.start_delete').click(function(e) {
+                  var div = $(this).closest('div');
+                  console.log(div[0].id);
+                  deleteNetwork(div[0].id)
               });
             });
           }
@@ -402,8 +372,6 @@
         cur_loc.name = $(".net_nickname").val();
         cur_loc.address = $(".net_address").val();
 
-        // setupMap(cur_loc.lat, cur_loc.lng);
-        // addMarker(cur_loc, map, infowindow);
         getLocation();
     });
 
@@ -487,33 +455,35 @@
       
     });
 
-    // $('#remove_net_btn').click(function(){
-    //   $.ajax({
-    //       url: "/locations/destroy",
-    //       type: "DELETE",
-    //       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-    //       data: { name: $(this).closest('.net_info').find('.net_nickname').text(); },
-    //       success: function(data){
-    //         locs = [];
-    //         for(var i=0; i<data.length; i++)
-    //         {
-    //           var obj = {
-    //               name: data[i].name,
-    //               lat: data[i].lat,
-    //               lng: data[i].lng,
-    //               pwd: data[i].pwd,
-    //               address: data[i].address
-    //           };
-    //           locs.push(obj);
-    //         }
-
-    //         setupMap(cur_loc.lat, cur_loc.lng);
-    //         //addMarker(data, map, infowindow);
-    //         reset_fields();
-    //         reset_location(loc);
-    //       }
-    //   });
-    // });
+    function deleteNetwork(network_id)
+    {
+      $.ajax({
+        url: "/locations/" + network_id,
+        type: 'DELETE',
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        data: { id: network_id },
+        success: function(data){
+          console.log(data);
+          locs = [];
+          for(var i=0; i<data.length; i++)
+          {
+              var obj = {
+                  name: data[i].name,
+                  lat: data[i].lat,
+                  lng: data[i].lng,
+                  pwd: data[i].pwd,
+                  address: data[i].address,
+                  id: data[i].id
+                };
+              locs.push(obj);
+          }
+          reset_location(cur_loc);
+          cur_loc.lat = current_location.lat;
+          cur_loc.lng = current_location.lng;
+          setupMap(cur_loc.lat, cur_loc.lng);
+        }
+      });
+    }
 
     //Gets the networks data from DB and calls setEditFields
     function editNetwork(network_id)
