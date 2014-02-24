@@ -214,7 +214,7 @@
                 '<h2>Name: '+ current_loc_networks[k].name + '</h1>'+
                 '<h2>Location: ' + current_loc_networks[k].address + '</h2>' +
                 '<h2>Password: ' + current_loc_networks[k].pwd + '</h2>' +
-                '<p><button class="start_edit">Edit</button> | <a href=# class="start_delete">Delete</a> | <a href=# class="start_share">Share</a></p></div><hr>';
+                '<p><a href=# class="start_edit">Edit</a> | <a href=# class="start_delete">Delete</a> | <a href=# class="start_share">Share</a></p></div><hr>';
 
               }
 
@@ -484,11 +484,6 @@
           else
             cur_loc.pwd = null;
         }
-
-        // if(cur_loc.name=="" || cur_loc.address=="" || cur_loc.pwd==null)
-        //   alert ("Please fill in all fields");
-        // else
-        //   add_loc_to_db(cur_loc);
       
     });
 
@@ -520,6 +515,7 @@
     //   });
     // });
 
+    //Gets the networks data from DB and calls setEditFields
     function editNetwork(network_id)
     {
       var location;
@@ -534,6 +530,7 @@
       });
     }
 
+    //Popoulates the edit form fields
     function setEditFields(loc)
     {
       $('.edit_name_field').val(loc.name);
@@ -541,13 +538,8 @@
       $('.edit_password_field').val(loc.pwd);
     }
 
-     $("#edit_net_btn").click(function(){
-
-      var name = $('.edit_name_field').val();
-      var address = $('.edit_address_field').val();
-      var pwd = $('.edit_password_field').val();
-      var l = "/locations/" + cur_loc.id;
-
+    function editNetworkAjax(name, address, pwd)
+    {
       $.ajax({
           url: "/locations/" + cur_loc.id,
           type: "PUT",
@@ -563,31 +555,28 @@
                     lat: data[i].lat,
                     lng: data[i].lng,
                     pwd: data[i].pwd,
-                    address: data[i].address
+                    address: data[i].address,
+                    id: data[i].id
                   };
                 locs.push(obj);
             }
             setupMap(cur_loc.lat, cur_loc.lng);
-          //   locs = [];
-          //   for(var i=0; i<data.length; i++)
-          //   {
-          //     var obj = {
-          //         name: data[i].name,
-          //         lat: data[i].lat,
-          //         lng: data[i].lng,
-          //         pwd: data[i].pwd,
-          //         address: data[i].address
-          //     };
-          //     locs.push(obj);
-          //   }
-          //   setupMap(cur_loc.lat, cur_loc.lng);
-          //   //addMarker(data, map, infowindow);
-          //   reset_fields();
-          //   reset_location(loc);
           }
       });
+    }
+
+    //Event handler for click of edit button in edit form. AJAX request to update network and then sets up map
+    $("#edit_net_btn").click(function(){
+
+      var name = $('.edit_name_field').val();
+      var address = $('.edit_address_field').val();
+      var pwd = $('.edit_password_field').val();
+      var l = "/locations/" + cur_loc.id;
+
+      editNetworkAjax(name, address, pwd);
     });
   
+  //Gets gps location and populates map upon load
   getLocation();
     
 })();
