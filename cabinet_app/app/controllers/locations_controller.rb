@@ -49,7 +49,15 @@ class LocationsController < ApplicationController
 
   # GET /locations/1/edit
   def edit
+
     @location = Location.find(params[:id])
+    respond_to do |format|
+      if request.xhr?
+        format.json { render json: @location }
+      else
+        format.html { redirect_to locations_url }
+      end
+    end
   end
 
   # POST /locations
@@ -71,10 +79,7 @@ class LocationsController < ApplicationController
     
     respond_to do |format|
       if @location.save
-        #current_user.locations << @location
-        # u = User.where("email = ?", current_user.email)
-        # u.locations << @location
-        # puts "<<<<<<<<<<<<<<#{current_user.locations}<<<<<<<<<<<<<"
+
         @locations = Location.all
         if request.xhr?
           format.json { render json: @location}
@@ -91,18 +96,17 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.json
   def update
+    
     @location = Location.find(params[:id])
 
     if request.xhr?
-      @location.lat = params['lat'].to_f
-      @location.lng = params['lng'].to_f
       @location.name = params['name']
       @location.address = params['address']
       @location.pwd = params['pwd']
     else
       @location.update_attributes(params[:location])
     end
-    
+
     respond_to do |format|
       if @location.save
         @locations = Location.all
@@ -113,9 +117,10 @@ class LocationsController < ApplicationController
         end
       else
         format.html { redirect_to locations_url }
-        format.json { render json: @location.errors, status: :unprocessable_entity }
+        format.json { render json: @locations.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   # DELETE /locations/1
