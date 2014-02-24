@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-CabinetApp::Application.config.secret_token = '0e74bbebf449b51e31333dd9a57d8a35c6d10b20d1a6f80865408447830e5ca4a3222c59a91d7043e670dfeea9aa71d88ebfb88a5f5ae1304a2a5888e610855e'
+Contacts::Application.config.secret_token = '0a13a0017d048c925f9cf72428d21d4c53d693fbe63bc76c6c304e6ab40d6d3d9b1a0f03182d24a90e4ddeccac505dbc53214c91a933f1584e438d878384fd7d'

@@ -1,0 +1,545 @@
+
+
+  <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map-canvas { height:  70% }
+    </style>
+<div id='map-canvas'>
+</div>
+
+<div>
+    <button id='addLoc'>Show Current Location</button>
+    <button id='refreshLoc'>Refresh Location</button>
+    <p id='msg'></p>
+    <input type="text" class="search_field" placeholder="search address">
+    <button id="search_btn">Search</button>
+    <input type="text" class="net_nickname" placeholder="nickname">
+    <input type="text" class="net_address" placeholder="address">
+    <input type="text" class="net_pass" placeholder="password">
+    
+    <button id="add_net_btn">Add Location</button>
+    <button id="remove_net_btn">Remove Location</button>
+    <button id="calculate">Calculate distance</button>
+    <button id="reset">Reset distance</button>
+
+
+  </div>
+
+    <script>
+
+    var locs = [];
+    //var locations = [];
+    var sorted_locs_by_distance = [];
+    var current_loc_networks = [];
+    var cur_lat;
+    var cur_lng;
+    var map;
+    var infowindow;
+    var geocoder;
+    var current_location = {};
+    var cur_loc = {};
+
+    <% @locations.each do |loc| %>
+        var obj = {
+          name: "<%= loc.name %>",
+          lat: <%= loc.lat %>,
+          lng: <%= loc.lng %>,
+          pwd: "<%= loc.pwd %>",
+          address: "<%= loc.address %>",
+          distance: 0,
+          markerPlaced: false
+        };
+      locs.push(obj);
+    <% end %>
+
+    //console.log(locs);
+
+    (function(){
+    
+
+    //Gets current location coordinates  
+    function getLocation()
+    {
+      if (navigator.geolocation)
+      {
+          var options = {
+              enableHighAccuracy: true,
+              timeout: 5000,
+              maximumAge: 0
+          };
+          navigator.geolocation.getCurrentPosition( success, error,options);
+      }
+      else
+      { x.innerHTML= "Geolocation is not supported by this browser."; }
+    }
+
+    function error(e) {
+      console.log("error code:" + e.code + 'message: ' + e.message );
+    }
+
+    // If current location request was successful, initializes location
+    function success(position) {
+      cur_loc.lat  = position.coords.latitude;
+      cur_loc.lng =  position.coords.longitude;
+      current_location.lat  = position.coords.latitude;
+      current_location.lng =  position.coords.longitude;
+      setupMap(cur_loc.lat, cur_loc.lng);
+    }
+
+    //Sets up map and adds markers for networks currently in db
+    //Map centers on current_location
+    function setupMap(lat, lng)
+    {
+      var  myLocation =   new google.maps.LatLng(lat, lng);
+
+      var mapOptions = {
+          center: new google.maps.LatLng(myLocation.lat(),myLocation.lng()),
+          zoom: 11,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+
+      map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+      infowindow = new google.maps.InfoWindow();
+
+      geocoder = new google.maps.Geocoder();
+
+      //locs = get_locations();
+      console.log(locs);
+
+      addCurrentLocMarker(map);
+      
+      var l = {};
+      // for (i=0; i<locs.length; i++)
+      // {
+      //   locs[i].markerPlaced = false;
+      //   console.log(locs[i].name + " << " + locs[i].markerPlaced);
+      // }
+      // for (i=0; i<locs.length; i++)
+      // {
+      //     generate_list_by_distance(locs[i]);
+
+      //     if(locs[i].markerPlaced == false)
+      //     {
+      //       for(var j=0; j<sorted_locs_by_distance.length; j++)
+      //       {
+      //         if(sorted_locs_by_distance[j].distance < 0.01)
+      //         {
+      //           if(sorted_locs_by_distance[j].markerPlaced == true)
+      //           {
+      //             //addMarker(locs[i], map, infowindow);
+      //             locs[i].markerPlaced = true;
+      //           }
+      //           else
+      //           {
+      //             addMarker(locs[i], map, infowindow);
+      //             locs[i].markerPlaced = true;
+      //           }
+      //         }
+      //         else
+      //           break;
+      //       }
+      //       if(locs[i].markerPlaced == false)
+      //         addMarker(locs[i], map, infowindow);
+      //     }
+
+      // }
+
+      for (i=0; i<locs.length; i++)
+      {
+        addMarker(locs[i], map, infowindow);
+      }
+
+      
+    }
+
+    //Adds a marker to the map
+    function addMarker(loc, map, infowindow)
+    {
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(loc.lat, loc.lng),
+          map: map,
+          icon: 'http://www.nico-castro-files.com/saved_loc.svg',
+          //animation: google.maps.Animation.DROP
+        });
+        console.log(marker.position);
+
+        //Display location name when hovering over a marker
+        google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+          return function() {
+            infowindow.setContent('<div id="content">'+
+              '<div id="siteNotice">'+
+              '</div>'+
+              '<h2>Name: '+ loc.name + '</h1>'+
+              '<h2>Location: ' + loc.address + '</h2>' +
+              '<h2>Password: ' + loc.pwd + '</h2>' +
+              '<div id="bodyContent">'+
+              '<p><a href=#>Edit</a> | <a href=#>Delete</a> | <a href=#>Share</a></p>'+
+              '</div>'+
+              '</div>');
+            infowindow.open(map, marker);
+          }
+        })(marker, i));
+
+        // Set location variable to clicked marker
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+          return function() {
+            cur_loc.lat = marker.position.d;
+            cur_loc.lng = marker.position.e;
+
+            generate_list_by_distance(cur_loc);
+
+            //Just to check output
+            for(var i in sorted_locs_by_distance)
+               console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
+
+            getCurrentLocNetworks(marker);
+
+            var content = "";
+              for(var k=0; k<current_loc_networks.length; k++)
+              {
+                content += '<div id="content">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<h2>Name: '+ current_loc_networks[k].name + '</h1>'+
+                '<h2>Location: ' + current_loc_networks[k].address + '</h2>' +
+                '<h2>Password: ' + current_loc_networks[k].pwd + '</h2>' +
+                '<div id="bodyContent">'+
+                '<p><a href=#>Edit</a> | <a href=#>Delete</a> | <a href=#>Share</a></p>'+
+                '</div>'+
+                '</div><hr>'
+              };
+
+            infowindow.setContent(content);
+            infowindow.open(map, marker);
+          }
+        })(marker, i));
+    }
+
+    function addCurrentLocMarker(map)
+    {
+      marker = new google.maps.Marker({
+          position: new google.maps.LatLng(current_location.lat, current_location.lng),
+          map: map,
+          icon: 'http://www.nico-castro-files.com/current_loc.svg',
+          animation: google.maps.Animation.DROP
+        });
+    }
+
+    function addNewLocMarker(loc, map)
+    {
+      marker = new google.maps.Marker({
+          position: new google.maps.LatLng(loc.lat, loc.lng),
+          map: map,
+          icon: 'http://www.nico-castro-files.com/new_loc.svg',
+          animation: google.maps.Animation.DROP
+        });
+    }
+
+    function getCurrentLocNetworks(marker)
+    {
+      current_loc_networks = [];
+      generate_list_by_distance(cur_loc);
+      for(var i=0; i<sorted_locs_by_distance.length; i++)
+      {
+        if (sorted_locs_by_distance[i].distance < 0.01)
+        {
+          current_loc_networks.push(sorted_locs_by_distance[i]);
+        }
+        else
+          break;
+      }
+      console.log(current_loc_networks);
+    }
+
+    //AJAX call to add new network to DB
+    //Also updates map
+    function add_loc_to_db(loc)
+    {
+      $.ajax({
+            url: "/locations",
+            type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            data: { lat: loc.lat, lng: loc.lng, name: loc.name, address: loc.address, pwd: loc.pwd },
+            success: function(data){
+              console.log(data);
+              var obj = {
+                  name: data.name,
+                  lat: data.lat,
+                  lng: data.lng,
+                  pwd: data.pwd,
+                  address: data.address,
+                  id: data.id
+              };
+              locs.push(obj);
+              setupMap(data.lat, data.lng)
+              //setupMap(cur_loc.lat, cur_loc.lng);
+              //addMarker(data, map, infowindow);
+              reset_fields();
+              //reset_location(loc);
+            }
+        });
+    }
+
+    //Resets location object
+    function reset_location(loc)
+    {
+      loc.lat = null;
+      loc.lng = null;
+      loc.name = "";
+      loc.address = "";
+      loc.pwd = null;
+      loc.id = null;
+    }
+
+    //Resets input fields
+    function reset_fields()
+    {
+      $(".net_nickname").val("");
+      $(".net_address").val("");
+      $(".net_pass").val(null);
+      $('.search_field').val("");
+    }
+
+    //Define function which converts a number to Rad
+    Number.prototype.toRad = function() {
+       return this * Math.PI / 180;
+    }
+
+    //Haversine formula to get distance between points based on coordinates
+    function calculate_distance(loc1, loc2)
+    {
+      var lat2 = loc2.lat; 
+      var lon2 = loc2.lng; 
+      var lat1 = loc1.lat; 
+      var lon1 = loc1.lng; 
+
+      var R = 6371; // km, for miles is 3961
+      var x1 = lat2-lat1;
+      var dLat = x1.toRad();  
+      var x2 = lon2-lon1;
+      var dLon = x2.toRad();  
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+                      Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+                      Math.sin(dLon/2) * Math.sin(dLon/2);  
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var d = R * c; 
+      return d;
+    }
+
+    //Generates ordered list of object by distance based on cur_loc
+    function generate_list_by_distance(loc)
+    {
+      sorted_locs_by_distance = [];
+      for(var i=0; i<locs.length; i++)
+      {
+        distance = calculate_distance(loc, locs[i]);
+        locs[i].distance = distance;
+        sorted_locs_by_distance.push(locs[i]);
+      }
+
+      sorted_locs_by_distance.sort(function(a, b) { 
+          return a.distance - b.distance;
+      });
+
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+
+  // Event handlers to test generation of list by distance
+    $('#calculate').click(function()
+    {
+      generate_list_by_distance(cur_loc);
+      for(var i in sorted_locs_by_distance)
+         console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
+    });
+
+    $('#reset').click(function()
+    {
+      sorted_locs_by_distance = [];
+      console.log(sorted_locs_by_distance);
+    });
+
+
+    ////////////////*****************\\\\\\\\\\\\\\\\\\
+    //                                                \\
+    //                EVENT HANDLERS                  \\
+    //                                                \\
+    ////////////////*****************\\\\\\\\\\\\\\\\\\\
+
+    
+    // Moves map back to last saved current location
+    $('#addLoc').click(function(ev)
+    {
+        current_location.name = $(".net_nickname").val();
+        current_location.address = $(".net_address").val();
+
+        setupMap(current_location.lat, current_location.lng);
+        //addMarker(current_location, map, infowindow);
+        //getLocation();
+    });
+
+    //Refreshes the current location of the user
+    $('#refreshLoc').click(function(ev)
+    {
+        cur_loc.name = $(".net_nickname").val();
+        cur_loc.address = $(".net_address").val();
+
+        // setupMap(cur_loc.lat, cur_loc.lng);
+        // addMarker(cur_loc, map, infowindow);
+        getLocation();
+    });
+
+    // Search action: Moves map and adds marker to first result of search
+    $('#search_btn').click(function(ev)
+    {
+      reset_location(cur_loc);
+      var address = $(".search_field").val();
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) 
+        {
+          cur_loc.lat = results[0].geometry.location.d;
+          cur_loc.lng = results[0].geometry.location.e;
+          cur_loc.name = address;
+          cur_loc.address = address;
+          
+          $('.net_address').val(address);
+
+          //Generates list order by distance from search point of existing locations 
+          generate_list_by_distance(cur_loc);
+          for(var i in sorted_locs_by_distance)
+             console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
+
+          setupMap(cur_loc.lat, cur_loc.lng);
+          addNewLocMarker(cur_loc, map);
+
+        } 
+        else {
+          alert("Geocode was not successful for the following reason: " + status);
+        }
+      });
+      
+    });
+
+    // Adds new location: First checks user input for required fields and then calls function
+    //for ajax call which adds network to the db.
+    $('#add_net_btn').click(function(ev)
+    {
+        cur_loc.name = $(".net_nickname").val();
+        cur_loc.address = $(".net_address").val();
+        
+        try
+        {
+          cur_loc.pwd = $(".net_pass").val();
+          if (cur_loc.pwd == null || cur_loc.pwd == "")
+          {
+            var confirmation = confirm('Add network with no password?');
+            if (confirmation == true)
+            {
+              cur_loc.pwd = "";
+              if(cur_loc.name=="" || cur_loc.address=="")
+                alert ("Please fill in all fields");
+              else
+                add_loc_to_db(cur_loc);
+            }
+            else
+              cur_loc.pwd = null;
+          }
+          else if(cur_loc.name != "" && cur_loc.address != "")
+            add_loc_to_db(cur_loc);
+          else
+            alert('Please fill in all fields');
+        }
+        catch(err)
+        {
+          alert('catch');
+          var confirmation = confirm('Add network with no password?');
+          if (confirmation == true)
+          {
+            cur_loc.pwd = "";
+            if(cur_loc.name=="" || cur_loc.address=="")
+              alert ("Please fill in all fields");
+            else if(cur_loc.name != "" && cur_loc.address != "")
+              add_loc_to_db(cur_loc);
+            else
+              alert('Please fill in all fields');
+          }
+          else
+            cur_loc.pwd = null;
+        }
+
+        // if(cur_loc.name=="" || cur_loc.address=="" || cur_loc.pwd==null)
+        //   alert ("Please fill in all fields");
+        // else
+        //   add_loc_to_db(cur_loc);
+      
+    });
+
+    // $('#remove_net_btn').click(function(){
+    //   $.ajax({
+    //       url: "/locations/destroy",
+    //       type: "DELETE",
+    //       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+    //       data: { name: $(this).closest('.net_info').find('.net_nickname').text(); },
+    //       success: function(data){
+    //         locs = [];
+    //         for(var i=0; i<data.length; i++)
+    //         {
+    //           var obj = {
+    //               name: data[i].name,
+    //               lat: data[i].lat,
+    //               lng: data[i].lng,
+    //               pwd: data[i].pwd,
+    //               address: data[i].address
+    //           };
+    //           locs.push(obj);
+    //         }
+
+    //         setupMap(cur_loc.lat, cur_loc.lng);
+    //         //addMarker(data, map, infowindow);
+    //         reset_fields();
+    //         reset_location(loc);
+    //       }
+    //   });
+    // });
+
+    // $('#edit_net_btn').click(function(){
+    //   $.ajax({
+    //       url: "/locations/update",
+    //       type: "PUT",
+    //       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+    //       data: { name: $(this).closest('.net_info').find('.net_nickname').text(); },
+    //       success: function(data){
+    //         locs = [];
+    //         for(var i=0; i<data.length; i++)
+    //         {
+    //           var obj = {
+    //               name: data[i].name,
+    //               lat: data[i].lat,
+    //               lng: data[i].lng,
+    //               pwd: data[i].pwd,
+    //               address: data[i].address
+    //           };
+    //           locs.push(obj);
+    //         }
+    //         setupMap(cur_loc.lat, cur_loc.lng);
+    //         //addMarker(data, map, infowindow);
+    //         reset_fields();
+    //         reset_location(loc);
+    //       }
+    //   });
+    // });
+  
+  getLocation();
+    
+})();
+  </script>
+
+
+
+
+
+
+
+
