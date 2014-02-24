@@ -1,0 +1,70 @@
+<html>
+<head>
+  <title>Cabinet</title>
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/skeleton.css">
+  <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:300,400,500' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="styles/main.css">
+  <script src="js/jquery.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmHyJAbtqnYHBu9plFnIP_tISiPMtrE24&sensor=false"></script>
+  <script src="js/landing.js"></script>
+</head>
+<body>
+
+<div id="wrap">
+<div id="header">
+  <div id="up-left">
+    <h1><a href="#">cabinet</a></h1>
+  </div> <!-- closes #up-left -->
+
+  <div id="up-right">
+    <p>
+      <a href="#" class="login_btn">LOG IN</a>
+      <!--  | <a href="#" class="signup_btn">Sign up</a> -->
+    </p>
+  </div> <!-- closes #up-right -->
+</div> <!-- closes #header -->
+
+<div class="container">
+  <div id="welcome" class="sixteen columns alpha omega">
+    <div id="welcome_inner">
+      <h2>Welcome to Cabinet</h2>
+      <p>the easy wifi storing and sharing web app</p>
+    </div>
+    <div id="welcome_form">
+      <p>
+        <img src="images/ex_pin.png">
+        Cabinet allows you to safely store the name and password of the different wifi networks you've accessed. It's like having easy access to your own list of trusted personal hotspots. You can also share network info with friends.
+      </p>
+      <form id="signup_form">
+        <h2>Sign up</h2>
+        <table>
+        <tr>
+          <td>First name:</td>
+          <td><input type="text" name="firstname" id="firstname"><br></td>
+        </tr>
+        <tr>
+          <td>Email:</td>
+          <td><input type="text" name="email" id="email"><br></td>
+        </tr>
+          <td>Password:</td>
+          <td><input type="password" name="pass" id="pass"></td>
+        <tr>
+        </tr>
+        </table>
+        <input type="submit" id="signup_submit" value="submit">
+      </form>
+    </div>
+  </div>
+  
+</div> <!-- closes .container -->
+</div> <!-- closes #wrap -->
+
+<div id="footer">
+  <p>
+    <a href="#">About us</a> | <a href="#">Press</a> | <a href="#">Legal</a>
+  </p>
+</div>
+
+</body>
+</html>

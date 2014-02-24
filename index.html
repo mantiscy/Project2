@@ -1,0 +1,177 @@
+<html>
+<head>
+  <title>Cabinet</title>
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/skeleton.css">
+  <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:300,400,500' rel='stylesheet' type='text/css'>
+  <link href="styles/mbExtruder.css" media="all" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/override.css">
+  <script src="js/jquery.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmHyJAbtqnYHBu9plFnIP_tISiPMtrE24&sensor=false"></script>
+   <script type="text/javascript" src="inc/jquery.hoverIntent.min.js"></script>
+    <script type="text/javascript" src="inc/jquery.mb.flipText.js"></script>
+    <script type="text/javascript" src="inc/mbExtruder.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/index.js"></script>
+</head>
+<body>
+
+<div id="wrap">
+<div id="header">
+  <div id="up-left">
+    <h1><a href="#">cabinet</a></h1>
+  </div> <!-- closes #up-left -->
+
+  <div id="up-right">
+    <p>
+      <a href="#" class="login_btn">LOG IN</a>
+      <!--  | <a href="#" class="signup_btn">Sign up</a> -->
+    </p>
+  </div> <!-- closes #up-right -->
+</div> <!-- closes #header -->
+
+<div id='map-canvas'></div>
+ <!--  <p><address id='GA London'>
+    9 Back Hill
+    Clerkenwell
+    London
+    EC1R 5EN
+  </address><br>
+
+  <address id='Home'>
+    71 Porchester Terrace
+    London
+    W2 3TT
+  </address></p> -->
+
+<!--   <div id="extruderRight" class="{title:'List View', url:'parts/extruderRight.html'}">
+  </div> -->
+<code id="jq1" class="html" style="overflow:auto">
+  <div id="extruderRight" class="{title:' List View ', url:'parts/extruderRight.html'}">
+    <div class="content">
+      <div id="loc_net_list">
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>GA WDI</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>GA-Guest</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>schooldinner</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>Home</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>F8BH3C</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>xyz123</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>Fran's House</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>BT_PuertoRico</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>abc123</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>GA WDI</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>GA-Guest</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>schooldinner</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>Home</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>F8BH3C</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>xyz123</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>Fran's House</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>BT_PuertoRico</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>abc123</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+
+      </div>
+    </div>
+  </div>
+</code>
+
+</div> <!-- closes #wrap -->
+
+<div id="footer">
+  <p>
+    <a href="#">About us</a> | <a href="#">Press</a> | <a href="#">Legal</a>
+  </p>
+</div>
+
+</body>
+</html>

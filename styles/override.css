@@ -1,0 +1,73 @@
+body {
+  background: white;
+  font-family: 'Alegreya Sans', sans-serif;
+}
+
+.extruder.right .flap .flapLabel {
+  background: #1f8c8c;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-weight: 300;
+  color: white;
+  border-right: none;
+}
+
+.extruder.right .flap{
+  font-family: 'Alegreya Sans', sans-serif;
+}
+
+.side_list {
+  color: white;
+}
+
+#extruderRight {
+  font-family: 'Alegreya Sans', sans-serif;
+}
+
+#extruderRight .content {
+  overflow: scroll;
+}
+
+#loc_net_list {
+  padding: 10px;
+}
+
+.net_info {
+  background: rgba(255, 255, 255, 1);
+  padding: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: 300;
+}
+
+#edit_btn, #delete_btn {
+  /*color: #b3fff1;*/
+  color: white;
+  padding: 8px;
+  /*background-color: #1f8c8c;*/
+  background-color: #f16c2e;
+  border: none;
+  font-weight: 300;
+  margin-top: 20px;
+  margin-right: 10px;
+}
+
+.boldify {
+  font-weight: 400;
+  color: #1f8c8c;
+}
+
+#loc_net_list table td {
+  padding: 15px 20px 0px 0px;
+}
+
+#loc_net_list table tr:first-child td {
+  padding-top: 5px;
+}
+
+#loc_net_list table td:first-child {
+  width: 30%;
+}
+
+
+
+
