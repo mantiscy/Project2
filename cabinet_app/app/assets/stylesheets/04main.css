@@ -327,7 +327,7 @@ h2 {
   font-weight: 300;
 }
 
-#edit_btn, #delete_btn {
+#edit_net_btn, #delete_net_btn, #share_net_btn {
   /*color: #b3fff1;*/
   color: white;
   padding: 8px;

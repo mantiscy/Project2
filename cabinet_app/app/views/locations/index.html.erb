@@ -25,9 +25,14 @@
                 <td class="boldify">Password:</td>
                 <td>schooldinner</td>
               </tr>
+              <tr class="net_distance">
+                <td class="boldify">Distance:</td>
+                <td>1.0km</td>
+              </tr>
             </table>
-            <input type="submit" id="edit_btn" value="Edit">
-            <input type="submit" id="delete_btn" value="Delete">
+            <input type="submit" id="edit_net_btn" value="Edit">
+            <input type="submit" id="delete_net_btn" value="Delete">
+            <input type="submit" id="share_net_btn" value="Share">
           </div>
           <div class="net_info">
             <table>
@@ -43,9 +48,14 @@
                 <td class="boldify">Password:</td>
                 <td>xyz123</td>
               </tr>
+              <tr class="net_distance">
+                <td class="boldify">Distance:</td>
+                <td>1.0km</td>
+              </tr>
             </table>
-            <input type="submit" id="edit_btn" value="Edit">
-            <input type="submit" id="delete_btn" value="Delete">
+            <input type="submit" id="edit_net_btn" value="Edit">
+            <input type="submit" id="delete_net_btn" value="Delete">
+            <input type="submit" id="share_net_btn" value="Share">
           </div>
           <div class="net_info">
             <table>
@@ -61,9 +71,14 @@
                 <td class="boldify">Password:</td>
                 <td>abc123</td>
               </tr>
+              <tr class="net_distance">
+                <td class="boldify">Distance:</td>
+                <td>1.0km</td>
+              </tr>
             </table>
-            <input type="submit" id="edit_btn" value="Edit">
-            <input type="submit" id="delete_btn" value="Delete">
+            <input type="submit" id="edit_net_btn" value="Edit">
+            <input type="submit" id="delete_net_btn" value="Delete">
+            <input type="submit" id="share_net_btn" value="Share">
           </div>
           <div class="net_info">
             <table>
@@ -79,9 +94,14 @@
                 <td class="boldify">Password:</td>
                 <td>schooldinner</td>
               </tr>
+              <tr class="net_distance">
+                <td class="boldify">Distance:</td>
+                <td>1.0km</td>
+              </tr>
             </table>
-            <input type="submit" id="edit_btn" value="Edit">
-            <input type="submit" id="delete_btn" value="Delete">
+            <input type="submit" id="edit_net_btn" value="Edit">
+            <input type="submit" id="delete_net_btn" value="Delete">
+            <input type="submit" id="share_net_btn" value="Share">
           </div>
           <div class="net_info">
             <table>
@@ -97,9 +117,14 @@
                 <td class="boldify">Password:</td>
                 <td>xyz123</td>
               </tr>
+              <tr class="net_distance">
+                <td class="boldify">Distance:</td>
+                <td>1.0km</td>
+              </tr>
             </table>
-            <input type="submit" id="edit_btn" value="Edit">
-            <input type="submit" id="delete_btn" value="Delete">
+            <input type="submit" id="edit_net_btn" value="Edit">
+            <input type="submit" id="delete_net_btn" value="Delete">
+            <input type="submit" id="share_net_btn" value="Share">
           </div>
           <div class="net_info">
             <table>
@@ -115,9 +140,14 @@
                 <td class="boldify">Password:</td>
                 <td>abc123</td>
               </tr>
+              <tr class="net_distance">
+                <td class="boldify">Distance:</td>
+                <td>1.0km</td>
+              </tr>
             </table>
-            <input type="submit" id="edit_btn" value="Edit">
-            <input type="submit" id="delete_btn" value="Delete">
+            <input type="submit" id="edit_net_btn" value="Edit">
+            <input type="submit" id="delete_net_btn" value="Delete">
+            <input type="submit" id="share_net_btn" value="Share">
           </div>
 
       </div>
@@ -290,9 +320,9 @@
               for(var k=0; k<current_loc_networks.length; k++)
               {
                 content += '<div id=' + current_loc_networks[k].id + '>' +
-                '<h2>Name: '+ current_loc_networks[k].name + '</h1>'+
-                '<h2>Location: ' + current_loc_networks[k].address + '</h2>' +
-                '<h2>Password: ' + current_loc_networks[k].pwd + '</h2>' +
+                '<h3>Name: '+ current_loc_networks[k].name + '</h3>'+
+                '<h3>Location: ' + current_loc_networks[k].address + '</h3>' +
+                '<h3>Password: ' + current_loc_networks[k].pwd + '</h3>' +
                 '<p><a href=# class="start_edit">Edit</a> | <a href=# class="start_delete">Delete</a></p>' + 
                 '<p><input type="text" class="share_email_field" placeholder="enter email"> ' + 
                 '<a href=# class="start_share">Share</a></p></div><hr>';
