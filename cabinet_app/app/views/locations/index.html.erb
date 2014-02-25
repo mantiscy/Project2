@@ -73,6 +73,8 @@ $(function(){
     function setupMap(lat, lng)
     {
       var  myLocation =   new google.maps.LatLng(lat, lng);
+      cur_loc.lat = lat
+      cur_loc.lng = lng
 
       var mapOptions = {
           center: new google.maps.LatLng(myLocation.lat(),myLocation.lng()),
@@ -85,12 +87,7 @@ $(function(){
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-      // infowindow = new google.maps.InfoWindow();
-
       geocoder = new google.maps.Geocoder();
-
-      //locs = get_locations();
-      console.log(locs);
 
       addCurrentLocMarker(map);
 
@@ -104,50 +101,29 @@ $(function(){
       
     }
 
-    //Adds a marker to the map
-    function addMarker(loc, map)
+    //Adds listeners/event handlers to marker
+    function addMarkerListeners(marker)
     {
-        marker = new google.maps.Marker({
-          position: new google.maps.LatLng(loc.lat, loc.lng),
-          map: map,
-          icon: 'http://www.nico-castro-files.com/saved_loc.svg',
-          //animation: google.maps.Animation.DROP
-        });
-        //console.log(marker.position);
-
-        //Display location name when hovering over a marker
-        // google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
-        //   return function() {
-        //     infowindow.setContent('<div id="content">'+
-        //       '<div id="siteNotice">'+
-        //       '</div>'+
-        //       '<h2>Name: '+ loc.name + '</h1>'+
-        //       '<h2>Location: ' + loc.address + '</h2>' +
-        //       '<h2>Password: ' + loc.pwd + '</h2>' +
-        //       '<div id="bodyContent">'+
-        //       '<p><a href=#>Edit</a> | <a href=# class="start_delete">Delete</a> | <a href=# class="start_share">Share</a></p>'+
-        //       '</div>'+
-        //       '</div>');
-        //     infowindow.open(map, marker);
-        //   }
-        // })(marker, i));
-
-        
-
-        // Set location variable to clicked marker
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+      google.maps.event.addListener(marker, 'click', (function(marker) {
           return function() {
             cur_loc.lat = marker.position.d;
             cur_loc.lng = marker.position.e;
 
             generate_list_by_distance(cur_loc);
 
-            //Just to check output
-            // for(var i in sorted_locs_by_distance)
-            //    console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
-
             getCurrentLocNetworks(marker);
-            
+            if (current_loc_networks.length == 0)
+            {
+              google.maps.event.addListener(marker, 'click', (function(marker) {
+                return function() {
+                  reset_location(cur_loc);
+                  cur_loc.lat = marker.position.d;
+                  cur_loc.lng = marker.position.e; 
+                  $('#content_box').removeClass("hidden");
+                }
+              })(marker));
+            }
+            populateSideTab();
 
             var content = "";
               for(var k=0; k<current_loc_networks.length; k++)
@@ -186,11 +162,23 @@ $(function(){
               });
             });
           }
-        })(marker, i));
-
-        
+        })(marker));
     }
 
+    //Adds a marker to the map
+    function addMarker(loc, map)
+    {
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(loc.lat, loc.lng),
+          map: map,
+          icon: 'http://www.nico-castro-files.com/saved_loc.svg',
+          //animation: google.maps.Animation.DROP
+        });
+
+        addMarkerListeners(marker);
+    }
+
+    //Adds marker for current GPS location
     function addCurrentLocMarker(map)
     {
       marker = new google.maps.Marker({
@@ -199,8 +187,12 @@ $(function(){
           icon: 'http://www.nico-castro-files.com/current_loc.svg',
           animation: google.maps.Animation.DROP
         });
+
+      addMarkerListeners(marker);
+      
     }
 
+    //Adds markers and event handlers for search result marker
     function addNewLocMarker(loc, map)
     {
       marker = new google.maps.Marker({
@@ -212,11 +204,15 @@ $(function(){
 
       google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
+          reset_location(cur_loc);
+          cur_loc.lat = marker.position.d;
+          cur_loc.lng = marker.position.e; 
           $('#content_box').removeClass("hidden");
         }
       })(marker));
     }
 
+    //Finds all the networks presents in a radius of 10 meters from active location
     function getCurrentLocNetworks(marker)
     {
       current_loc_networks = [];
@@ -230,7 +226,7 @@ $(function(){
         else
           break;
       }
-      //console.log(current_loc_networks);
+
     }
 
     //AJAX call to add new network to DB
@@ -256,10 +252,7 @@ $(function(){
               locs.push(obj);
               $('#content_box').addClass("hidden");
               setupMap(data.lat, data.lng);
-              //setupMap(cur_loc.lat, cur_loc.lng);
-              //addMarker(data, map, infowindow);
               reset_fields();
-              //reset_location(loc);
             }
         });
     }
@@ -358,8 +351,6 @@ $(function(){
         current_location.address = $(".net_address").val();
 
         setupMap(current_location.lat, current_location.lng);
-        //addMarker(current_location, map, infowindow);
-        //getLocation();
     });
 
     //Refreshes the current location of the user
