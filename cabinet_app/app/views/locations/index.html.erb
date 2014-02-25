@@ -1,14 +1,132 @@
 
 
-  <style type="text/css">
-      html { height: 100% }
-      body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height:  70% }
+<style type="text/css">
+      body { background: white; }
     </style>
-<div id='map-canvas'>
-</div>
+  
 
-<div>
+<div id='map-canvas'></div>
+
+<code id="jq1" class="html" style="overflow:auto">
+  <div id="extruderRight" class="{title:' List View '}">
+    <div class="content">
+      <div id="loc_net_list">
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>GA WDI</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>GA-Guest</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>schooldinner</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>Home</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>F8BH3C</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>xyz123</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>Fran's House</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>BT_PuertoRico</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>abc123</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>GA WDI</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>GA-Guest</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>schooldinner</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>Home</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>F8BH3C</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>xyz123</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+          <div class="net_info">
+            <table>
+              <tr class="net_nickname">
+                <td class="boldify">Nickname:</td>
+                <td>Fran's House</td>
+              </tr>
+              <tr class="net_realname">
+                <td class="boldify">Network:</td>
+                <td>BT_PuertoRico</td>
+              </tr>
+              <tr class="net_pass">
+                <td class="boldify">Password:</td>
+                <td>abc123</td>
+              </tr>
+            </table>
+            <input type="submit" id="edit_btn" value="Edit">
+            <input type="submit" id="delete_btn" value="Delete">
+          </div>
+
+      </div>
+    </div>
+  </div>
+</code>
+
+
+<!-- <div style="height: 50px;">
     <button id='addLoc'>Show Current Location</button>
     <button id='refreshLoc'>Refresh Location</button>
     <p id='msg'></p>
@@ -17,18 +135,23 @@
     <input type="text" class="net_nickname" placeholder="nickname">
     <input type="text" class="net_address" placeholder="address">
     <input type="text" class="net_pass" placeholder="password">
-    
+
     <button id="add_net_btn">Add Location</button>
     <button id="remove_net_btn">Remove Location</button>
     <button id="calculate">Calculate distance</button>
     <button id="reset">Reset distance</button>
 
 
-  </div>
+  </div> -->
 
-    <script>
 
-    var locs = [];
+
+
+
+ 
+
+  <script type="text/javascript">
+  var locs = [];
     //var locations = [];
     var sorted_locs_by_distance = [];
     var current_loc_networks = [];
@@ -55,7 +178,8 @@
 
     //console.log(locs);
 
-    (function(){
+
+        (function(){
     
 
     //Gets current location coordinates  
@@ -95,8 +219,9 @@
 
       var mapOptions = {
           center: new google.maps.LatLng(myLocation.lat(),myLocation.lng()),
-          zoom: 11,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          zoom: 14,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          styles: [{"stylers":[{"visibility":"on"},{"saturation":-100}]},{"featureType":"water","stylers":[{"visibility":"on"},{"saturation":100},{"hue":"#00ffe6"}]},{"featureType":"road","elementType":"geometry","stylers":[{"saturation":100},{"hue":"#00ffcc"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","stylers":[{"visibility":"on"}]}]
       };
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
@@ -106,7 +231,7 @@
       geocoder = new google.maps.Geocoder();
 
       //locs = get_locations();
-      console.log(locs);
+      //console.log(locs);
 
       addCurrentLocMarker(map);
       
@@ -164,20 +289,19 @@
           //animation: google.maps.Animation.DROP
         });
         console.log(marker.position);
+        console.log(loc);
 
         //Display location name when hovering over a marker
-        google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+        google.maps.event.addListener(marker, 'mouseover', (
+
+          function(marker, i) {
           return function() {
-            infowindow.setContent('<div id="content">'+
-              '<div id="siteNotice">'+
-              '</div>'+
+            infowindow.setContent(
               '<h2>Name: '+ loc.name + '</h1>'+
               '<h2>Location: ' + loc.address + '</h2>' +
               '<h2>Password: ' + loc.pwd + '</h2>' +
-              '<div id="bodyContent">'+
-              '<p><a href=#>Edit</a> | <a href=#>Delete</a> | <a href=#>Share</a></p>'+
-              '</div>'+
-              '</div>');
+              '<p><a href=#>Edit</a> | <a href=#>Delete</a> | <a href=#>Share</a></p>'
+              );
             infowindow.open(map, marker);
           }
         })(marker, i));
@@ -250,7 +374,7 @@
         else
           break;
       }
-      console.log(current_loc_networks);
+      //console.log(current_loc_networks);
     }
 
     //AJAX call to add new network to DB
