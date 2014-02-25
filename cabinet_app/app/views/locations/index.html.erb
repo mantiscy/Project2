@@ -109,7 +109,7 @@
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-      infowindow = new google.maps.InfoWindow();
+      // infowindow = new google.maps.InfoWindow();
 
       geocoder = new google.maps.Geocoder();
 
@@ -120,14 +120,14 @@
 
       for (i=0; i<locs.length; i++)
       {
-        addMarker(locs[i], map, infowindow);
+        addMarker(locs[i], map);
       }
 
       
     }
 
     //Adds a marker to the map
-    function addMarker(loc, map, infowindow)
+    function addMarker(loc, map)
     {
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(loc.lat, loc.lng),
@@ -183,6 +183,8 @@
                 '<a href=# class="start_share">Share</a></p></div><hr>';
 
               }
+
+            infowindow = new google.maps.InfoWindow();
 
             infowindow.setContent(content);
             infowindow.open(map, marker);
@@ -508,6 +510,7 @@
       });
     }
 
+    //Updates DB by adding network to the location of the user specified
     function shareNetwork(network_id)
     {
       email = $('.share_email_field').val();
