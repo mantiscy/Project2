@@ -1,10 +1,11 @@
 class LocationsController < ApplicationController
-
+# layout false
   before_filter :authenticate_user!
   # GET /locations
   # GET /locations.json
   def index
     #@locations = Location.all
+
     @locations = current_user.locations
 
     respond_to do |format|

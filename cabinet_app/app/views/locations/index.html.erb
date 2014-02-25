@@ -1,14 +1,11 @@
 
 
-  <style type="text/css">
-      html { height: 100% }
-      body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height:  70% }
+<style type="text/css">
+      body { background: white; }
     </style>
-<div id='map-canvas'>
-</div>
 
-<div>
+
+<!-- <div style="height: 50px;">
     <button id='addLoc'>Show Current Location</button>
     <button id='refreshLoc'>Refresh Location</button>
     <p id='msg'></p>
@@ -17,7 +14,7 @@
     <input type="text" class="net_nickname" placeholder="nickname">
     <input type="text" class="net_address" placeholder="address">
     <input type="text" class="net_pass" placeholder="password">
-    
+
     <button id="add_net_btn">Add Location</button>
     <button id="remove_net_btn">Remove Location</button>
     <button id="calculate">Calculate distance</button>
@@ -27,13 +24,14 @@
     <input type="text" class="edit_name_field" placeholder="name">
     <input type="text" class="edit_address_field" placeholder="address">
     <input type="text" class="edit_password_field" placeholder="password">
-    <!-- <input type="hidden" name="edit_net_id" value="Norway"> -->
+    <input type="hidden" name="edit_net_id" value="Norway">
     <button id = 'edit_net_btn'>Edit</button>
 
 
-  </div>
+  </div> -->
 
-    <script>
+
+<script>
 
     var locs = [];
     //var locations = [];
@@ -64,7 +62,6 @@
     //console.log(locs);
 
     (function(){
-    
 
     //Gets current location coordinates  
     function getLocation()
@@ -103,8 +100,11 @@
 
       var mapOptions = {
           center: new google.maps.LatLng(myLocation.lat(),myLocation.lng()),
-          zoom: 11,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          zoom: 14,
+          streetViewControl: false,
+          mapTypeControl: false,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          styles: [{"stylers":[{"visibility":"on"},{"saturation":-100}]},{"featureType":"water","stylers":[{"visibility":"on"},{"saturation":100},{"hue":"#00ffe6"}]},{"featureType":"road","elementType":"geometry","stylers":[{"saturation":100},{"hue":"#00ffcc"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","stylers":[{"visibility":"on"}]}]
       };
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
@@ -122,7 +122,9 @@
       {
         addMarker(locs[i], map);
       }
-
+      
+      generate_list_by_distance(cur_loc);
+      populateSideTab();
       
     }
 
@@ -175,9 +177,9 @@
               for(var k=0; k<current_loc_networks.length; k++)
               {
                 content += '<div id=' + current_loc_networks[k].id + '>' +
-                '<h2>Name: '+ current_loc_networks[k].name + '</h1>'+
-                '<h2>Location: ' + current_loc_networks[k].address + '</h2>' +
-                '<h2>Password: ' + current_loc_networks[k].pwd + '</h2>' +
+                '<h3>Name: '+ current_loc_networks[k].name + '</h3>'+
+                '<h3>Location: ' + current_loc_networks[k].address + '</h3>' +
+                '<h3>Password: ' + current_loc_networks[k].pwd + '</h3>' +
                 '<p><a href=# class="start_edit">Edit</a> | <a href=# class="start_delete">Delete</a></p>' + 
                 '<p><input type="text" class="share_email_field" placeholder="enter email"> ' + 
                 '<a href=# class="start_share">Share</a></p></div><hr>';
@@ -572,14 +574,31 @@
       editNetworkAjax(name, address, pwd);
     });
   
+
+  function populateSideTab()
+  {
+    $('#loc_net_list').html('');
+    for(var i=0; i<sorted_locs_by_distance.length; i++)
+    {
+      $('#loc_net_list').append( '<div class="net_info"><table><tr class="net_nickname"><td class="boldify">Nickname:</td><td>' + sorted_locs_by_distance[i].name + '</td></tr><tr class="net_realname"><td class="boldify">Network:</td><td>' + sorted_locs_by_distance[i].address + '</td></tr><tr class="net_pass"><td class="boldify">Password:</td><td>' + sorted_locs_by_distance[i].pwd + '</td></tr></table><input type="submit" id="edit_btn" value="Edit"><input type="submit" id="delete_btn" value="Delete"></div>' );
+    }
+  }
+  
   //Gets gps location and populates map upon load
   getLocation();
     
 })();
-  </script>
+</script>
 
-
-
+<div id='map-canvas'></div>
+<code id="jq1" class="html" style="overflow:auto">
+  <div id="extruderRight" class="{title:' List View '}">
+    <div class="content">
+      <div id="loc_net_list">
+      </div>
+    </div>
+  </div>
+</code>
 
 
 
