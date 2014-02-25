@@ -3,157 +3,7 @@
 <style type="text/css">
       body { background: white; }
     </style>
-  
 
-<div id='map-canvas'></div>
-
-<code id="jq1" class="html" style="overflow:auto">
-  <div id="extruderRight" class="{title:' List View '}">
-    <div class="content">
-      <div id="loc_net_list">
-          <div class="net_info">
-            <table>
-              <tr class="net_nickname">
-                <td class="boldify">Nickname:</td>
-                <td>GA WDI</td>
-              </tr>
-              <tr class="net_realname">
-                <td class="boldify">Network:</td>
-                <td>GA-Guest</td>
-              </tr>
-              <tr class="net_pass">
-                <td class="boldify">Password:</td>
-                <td>schooldinner</td>
-              </tr>
-              <tr class="net_distance">
-                <td class="boldify">Distance:</td>
-                <td>1.0km</td>
-              </tr>
-            </table>
-            <input type="submit" id="edit_net_btn" value="Edit">
-            <input type="submit" id="delete_net_btn" value="Delete">
-            <input type="submit" id="share_net_btn" value="Share">
-          </div>
-          <div class="net_info">
-            <table>
-              <tr class="net_nickname">
-                <td class="boldify">Nickname:</td>
-                <td>Home</td>
-              </tr>
-              <tr class="net_realname">
-                <td class="boldify">Network:</td>
-                <td>F8BH3C</td>
-              </tr>
-              <tr class="net_pass">
-                <td class="boldify">Password:</td>
-                <td>xyz123</td>
-              </tr>
-              <tr class="net_distance">
-                <td class="boldify">Distance:</td>
-                <td>1.0km</td>
-              </tr>
-            </table>
-            <input type="submit" id="edit_net_btn" value="Edit">
-            <input type="submit" id="delete_net_btn" value="Delete">
-            <input type="submit" id="share_net_btn" value="Share">
-          </div>
-          <div class="net_info">
-            <table>
-              <tr class="net_nickname">
-                <td class="boldify">Nickname:</td>
-                <td>Fran's House</td>
-              </tr>
-              <tr class="net_realname">
-                <td class="boldify">Network:</td>
-                <td>BT_PuertoRico</td>
-              </tr>
-              <tr class="net_pass">
-                <td class="boldify">Password:</td>
-                <td>abc123</td>
-              </tr>
-              <tr class="net_distance">
-                <td class="boldify">Distance:</td>
-                <td>1.0km</td>
-              </tr>
-            </table>
-            <input type="submit" id="edit_net_btn" value="Edit">
-            <input type="submit" id="delete_net_btn" value="Delete">
-            <input type="submit" id="share_net_btn" value="Share">
-          </div>
-          <div class="net_info">
-            <table>
-              <tr class="net_nickname">
-                <td class="boldify">Nickname:</td>
-                <td>GA WDI</td>
-              </tr>
-              <tr class="net_realname">
-                <td class="boldify">Network:</td>
-                <td>GA-Guest</td>
-              </tr>
-              <tr class="net_pass">
-                <td class="boldify">Password:</td>
-                <td>schooldinner</td>
-              </tr>
-              <tr class="net_distance">
-                <td class="boldify">Distance:</td>
-                <td>1.0km</td>
-              </tr>
-            </table>
-            <input type="submit" id="edit_net_btn" value="Edit">
-            <input type="submit" id="delete_net_btn" value="Delete">
-            <input type="submit" id="share_net_btn" value="Share">
-          </div>
-          <div class="net_info">
-            <table>
-              <tr class="net_nickname">
-                <td class="boldify">Nickname:</td>
-                <td>Home</td>
-              </tr>
-              <tr class="net_realname">
-                <td class="boldify">Network:</td>
-                <td>F8BH3C</td>
-              </tr>
-              <tr class="net_pass">
-                <td class="boldify">Password:</td>
-                <td>xyz123</td>
-              </tr>
-              <tr class="net_distance">
-                <td class="boldify">Distance:</td>
-                <td>1.0km</td>
-              </tr>
-            </table>
-            <input type="submit" id="edit_net_btn" value="Edit">
-            <input type="submit" id="delete_net_btn" value="Delete">
-            <input type="submit" id="share_net_btn" value="Share">
-          </div>
-          <div class="net_info">
-            <table>
-              <tr class="net_nickname">
-                <td class="boldify">Nickname:</td>
-                <td>Fran's House</td>
-              </tr>
-              <tr class="net_realname">
-                <td class="boldify">Network:</td>
-                <td>BT_PuertoRico</td>
-              </tr>
-              <tr class="net_pass">
-                <td class="boldify">Password:</td>
-                <td>abc123</td>
-              </tr>
-              <tr class="net_distance">
-                <td class="boldify">Distance:</td>
-                <td>1.0km</td>
-              </tr>
-            </table>
-            <input type="submit" id="edit_net_btn" value="Edit">
-            <input type="submit" id="delete_net_btn" value="Delete">
-            <input type="submit" id="share_net_btn" value="Share">
-          </div>
-
-      </div>
-    </div>
-  </div>
-</code>
 
 
 <!-- <div style="height: 50px;">
@@ -170,12 +20,19 @@
     <button id="remove_net_btn">Remove Location</button>
     <button id="calculate">Calculate distance</button>
     <button id="reset">Reset distance</button>
+    <hr>
+    <p>Edit form</p>
+    <input type="text" class="edit_name_field" placeholder="name">
+    <input type="text" class="edit_address_field" placeholder="address">
+    <input type="text" class="edit_password_field" placeholder="password">
+    <input type="hidden" name="edit_net_id" value="Norway">
+    <button id = 'edit_net_btn'>Edit</button>
 
 
   </div> -->
 
 
-    <script>
+<script>
 
     var locs = [];
     //var locations = [];
@@ -206,7 +63,6 @@
     //console.log(locs);
 
     (function(){
-    
 
     //Gets current location coordinates  
     function getLocation()
@@ -267,7 +123,9 @@
       {
         addMarker(locs[i], map);
       }
-
+      
+      generate_list_by_distance(cur_loc);
+      populateSideTab();
       
     }
 
@@ -717,11 +575,33 @@
       editNetworkAjax(name, address, pwd);
     });
   
+
+  function populateSideTab()
+  {
+    $('#loc_net_list').html('');
+    for(var i=0; i<sorted_locs_by_distance.length; i++)
+    {
+      $('#loc_net_list').append( '<div class="net_info"><table><tr class="net_nickname"><td class="boldify">Nickname:</td><td>' + sorted_locs_by_distance[i].name + '</td></tr><tr class="net_realname"><td class="boldify">Network:</td><td>' + sorted_locs_by_distance[i].address + '</td></tr><tr class="net_pass"><td class="boldify">Password:</td><td>' + sorted_locs_by_distance[i].pwd + '</td></tr></table><input type="submit" id="edit_btn" value="Edit"><input type="submit" id="delete_btn" value="Delete"></div>' );
+    }
+  }
+  
   //Gets gps location and populates map upon load
   getLocation();
     
 })();
-  </script>
+</script>
+
+<div id='map-canvas'></div>
+<code id="jq1" class="html" style="overflow:auto">
+  <div id="extruderRight" class="{title:' List View '}">
+    <div class="content">
+      <div id="loc_net_list">
+      </div>
+    </div>
+  </div>
+</code>
+
+
 
 
 

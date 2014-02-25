@@ -9,4 +9,5 @@ Contacts::Application.routes.draw do
 
   root to: 'locations#index'
   get '/locations/landing', to: 'locations#landing', as: 'landing'
+  get '/locations/:id/share', to: 'locations#share', as: 'share'
 end

@@ -2,8 +2,7 @@
 
 $(function(){
 
-
-            // if (self.location.href == top.location.href){
+  // if (self.location.href == top.location.href){
             //     $("body").css({font:"normal 13px/16px 'trebuchet MS', verdana, sans-serif"});
             //     var logo=$("<a href='http://pupunzi.com'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository' style='display:none;'></a>").css({position:"absolute"});
             //     $("body").prepend(logo);
@@ -70,8 +69,7 @@ $(function(){
                 $(this).find(".flapLabel").html(text);
                 $(this).find(".flapLabel").mbFlipText();
             };
-
-        });
+});
 
 
 
