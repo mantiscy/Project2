@@ -178,7 +178,9 @@
                 '<h2>Name: '+ current_loc_networks[k].name + '</h1>'+
                 '<h2>Location: ' + current_loc_networks[k].address + '</h2>' +
                 '<h2>Password: ' + current_loc_networks[k].pwd + '</h2>' +
-                '<p><a href=# class="start_edit">Edit</a> | <a href=# class="start_delete">Delete</a> | <a href=# class="start_share">Share</a></p></div><hr>';
+                '<p><a href=# class="start_edit">Edit</a> | <a href=# class="start_delete">Delete</a></p>' + 
+                '<p><input type="text" class="share_email_field" placeholder="enter email"> ' + 
+                '<a href=# class="start_share">Share</a></p></div><hr>';
 
               }
 
@@ -195,6 +197,12 @@
                   var div = $(this).closest('div');
                   console.log(div[0].id);
                   deleteNetwork(div[0].id)
+              });
+
+              $('.start_share').click(function(e) {
+                  var div = $(this).closest('div');
+                  console.log(div[0].id);
+                  shareNetwork(div[0].id)
               });
             });
           }
@@ -496,6 +504,21 @@
         success: function(data){
           cur_loc = data;
           setEditFields(cur_loc);
+        }
+      });
+    }
+
+    function shareNetwork(network_id)
+    {
+      email = $('.share_email_field').val();
+      $.ajax({
+        url: "/locations/" + network_id + "/share",
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        data: { id: network_id, email: email },
+        success: function(data){
+          cur_loc = data;
+          alert("Locations has been successfully shared!");
+          //setEditFields(cur_loc);
         }
       });
     }

@@ -60,6 +60,30 @@ class LocationsController < ApplicationController
     end
   end
 
+  # GET /locations/1/share
+  def share
+
+    @location = Location.find(params[:id])
+    loc = Location.new
+    loc.lat = @location.lat
+    loc.lng = @location.lng
+    loc.name = @location.name
+    loc.address = @location.address
+    loc.pwd = @location.pwd 
+    user = User.where("email = ?", params[:email])
+    loc.save
+    loc.users << user
+    #@location.save
+    @locations = current_user.locations
+    respond_to do |format|
+      if request.xhr?
+        format.json { render json: @locations }
+      else
+        format.html { redirect_to locations_url }
+      end
+    end
+  end
+
   # POST /locations
   # POST /locations.json
   def create
@@ -80,7 +104,7 @@ class LocationsController < ApplicationController
     respond_to do |format|
       if @location.save
 
-        @locations = Location.all
+        @locations = current_user.locations
         if request.xhr?
           format.json { render json: @location}
         else
@@ -109,7 +133,7 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
-        @locations = Location.all
+        @locations = current_user.locations
         if request.xhr?
           format.json { render json: @locations}
         else
@@ -130,7 +154,7 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
 
     @location.destroy
-    @locations = Location.all
+    @locations = current_user.locations
 
     respond_to do |format|
       if request.xhr?
