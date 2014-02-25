@@ -356,6 +356,34 @@ h2 {
   width: 30%;
 }
 
+/*#map-canvas {
+  margin-bottom: -480px;
+}*/
+
+#search-stuff {
+  position: absolute;
+  left: 90px; 
+  top: 120px;
+}
+
+
+#search_btn {
+  margin-left: 10px; 
+  font-family: 'Arial', sans-serif;
+  font-size: 17px;
+  color: white;
+  background-color: #f16c2e;
+  border: none;
+  padding: 10px 8px 8px 8px;
+}
+
+.search_field {
+  padding: 10px 8px 8px 8px;
+  font-family: 'Arial', sans-serif;
+  font-size: 17px;
+  width: 62%;
+}
+
 
 
 

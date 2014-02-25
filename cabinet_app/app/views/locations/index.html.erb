@@ -6,33 +6,8 @@
 
 
 
-<!-- <div style="height: 50px;">
-    <button id='addLoc'>Show Current Location</button>
-    <button id='refreshLoc'>Refresh Location</button>
-    <p id='msg'></p>
-    <input type="text" class="search_field" placeholder="search address">
-    <button id="search_btn">Search</button>
-    <input type="text" class="net_nickname" placeholder="nickname">
-    <input type="text" class="net_address" placeholder="address">
-    <input type="text" class="net_pass" placeholder="password">
-
-    <button id="add_net_btn">Add Location</button>
-    <button id="remove_net_btn">Remove Location</button>
-    <button id="calculate">Calculate distance</button>
-    <button id="reset">Reset distance</button>
-    <hr>
-    <p>Edit form</p>
-    <input type="text" class="edit_name_field" placeholder="name">
-    <input type="text" class="edit_address_field" placeholder="address">
-    <input type="text" class="edit_password_field" placeholder="password">
-    <input type="hidden" name="edit_net_id" value="Norway">
-    <button id = 'edit_net_btn'>Edit</button>
-
-
-  </div> -->
-
-
 <script>
+$(function(){ 
 
     var locs = [];
     //var locations = [];
@@ -388,36 +363,37 @@
         getLocation();
     });
 
-    // Search action: Moves map and adds marker to first result of search
-    $('#search_btn').click(function(ev)
-    {
-      reset_location(cur_loc);
-      var address = $(".search_field").val();
-      geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) 
-        {
-          cur_loc.lat = results[0].geometry.location.d;
-          cur_loc.lng = results[0].geometry.location.e;
-          cur_loc.name = address;
-          cur_loc.address = address;
-          
-          $('.net_address').val(address);
+  // Search action: Moves map and adds marker to first result of search
 
-          //Generates list order by distance from search point of existing locations 
-          generate_list_by_distance(cur_loc);
-          for(var i in sorted_locs_by_distance)
-             console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
+  $('#search_btn').click( function(ev){
+    console.log("test");
+    reset_location(cur_loc);
+    var address = $(".search_field").val();
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) 
+      {
+        cur_loc.lat = results[0].geometry.location.d;
+        cur_loc.lng = results[0].geometry.location.e;
+        cur_loc.name = address;
+        cur_loc.address = address;
+        
+        $('.net_address').val(address);
 
-          setupMap(cur_loc.lat, cur_loc.lng);
-          addNewLocMarker(cur_loc, map);
+        //Generates list order by distance from search point of existing locations 
+        generate_list_by_distance(cur_loc);
+        for(var i in sorted_locs_by_distance)
+           console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
 
-        } 
-        else {
-          alert("Geocode was not successful for the following reason: " + status);
-        }
-      });
-      
-    });
+        setupMap(cur_loc.lat, cur_loc.lng);
+        addNewLocMarker(cur_loc, map);
+
+      } 
+      else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });  
+  });
+   
 
     // Adds new location: First checks user input for required fields and then calls function
     //for ajax call which adds network to the db.
@@ -589,9 +565,44 @@
   getLocation();
     
 })();
-</script>
 
-<div id='map-canvas'></div>
+});
+</script>
+<!-- <div>
+    <button id='addLoc'>Show Current Location</button>
+    <button id='refreshLoc'>Refresh Location</button>
+    <p id='msg'></p>
+    <input type="text" class="search_field" placeholder="search address">
+    <button id="search_btn">Search</button>
+    <input type="text" class="net_nickname" placeholder="nickname">
+    <input type="text" class="net_address" placeholder="address">
+    <input type="text" class="net_pass" placeholder="password">
+
+    <button id="add_net_btn">Add Location</button>
+    <button id="remove_net_btn">Remove Location</button>
+    <button id="calculate">Calculate distance</button>
+    <button id="reset">Reset distance</button>
+    <hr>
+    <p>Edit form</p>
+    <input type="text" class="edit_name_field" placeholder="name">
+    <input type="text" class="edit_address_field" placeholder="address">
+    <input type="text" class="edit_password_field" placeholder="password">
+    <input type="hidden" name="edit_net_id" value="Norway">
+    <button id = 'edit_net_btn'>Edit</button>
+
+  </div> -->
+
+
+
+<div id='map-canvas'>
+</div> <!-- closes #map-canvas -->
+
+
+<div id="search-stuff">
+  <input type="text" class="search_field" placeholder="search address">
+  <input type="submit" id="search_btn" value="Search">
+</div>
+
 <code id="jq1" class="html" style="overflow:auto">
   <div id="extruderRight" class="{title:' List View '}">
     <div class="content">
@@ -600,6 +611,8 @@
     </div>
   </div>
 </code>
+
+
 
 
 
