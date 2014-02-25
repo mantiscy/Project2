@@ -145,13 +145,9 @@
   </div> -->
 
 
+    <script>
 
-
-
- 
-
-  <script type="text/javascript">
-  var locs = [];
+    var locs = [];
     //var locations = [];
     var sorted_locs_by_distance = [];
     var current_loc_networks = [];
@@ -171,15 +167,15 @@
           pwd: "<%= loc.pwd %>",
           address: "<%= loc.address %>",
           distance: 0,
-          markerPlaced: false
+          markerPlaced: false,
+          id: <%= loc.id %>
         };
       locs.push(obj);
     <% end %>
 
     //console.log(locs);
 
-
-        (function(){
+    (function(){
     
 
     //Gets current location coordinates  
@@ -220,67 +216,33 @@
       var mapOptions = {
           center: new google.maps.LatLng(myLocation.lat(),myLocation.lng()),
           zoom: 14,
+          streetViewControl: false,
+          mapTypeControl: false,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           styles: [{"stylers":[{"visibility":"on"},{"saturation":-100}]},{"featureType":"water","stylers":[{"visibility":"on"},{"saturation":100},{"hue":"#00ffe6"}]},{"featureType":"road","elementType":"geometry","stylers":[{"saturation":100},{"hue":"#00ffcc"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","stylers":[{"visibility":"on"}]}]
       };
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-      infowindow = new google.maps.InfoWindow();
+      // infowindow = new google.maps.InfoWindow();
 
       geocoder = new google.maps.Geocoder();
 
       //locs = get_locations();
-      //console.log(locs);
+      console.log(locs);
 
       addCurrentLocMarker(map);
-      
-      var l = {};
-      // for (i=0; i<locs.length; i++)
-      // {
-      //   locs[i].markerPlaced = false;
-      //   console.log(locs[i].name + " << " + locs[i].markerPlaced);
-      // }
-      // for (i=0; i<locs.length; i++)
-      // {
-      //     generate_list_by_distance(locs[i]);
-
-      //     if(locs[i].markerPlaced == false)
-      //     {
-      //       for(var j=0; j<sorted_locs_by_distance.length; j++)
-      //       {
-      //         if(sorted_locs_by_distance[j].distance < 0.01)
-      //         {
-      //           if(sorted_locs_by_distance[j].markerPlaced == true)
-      //           {
-      //             //addMarker(locs[i], map, infowindow);
-      //             locs[i].markerPlaced = true;
-      //           }
-      //           else
-      //           {
-      //             addMarker(locs[i], map, infowindow);
-      //             locs[i].markerPlaced = true;
-      //           }
-      //         }
-      //         else
-      //           break;
-      //       }
-      //       if(locs[i].markerPlaced == false)
-      //         addMarker(locs[i], map, infowindow);
-      //     }
-
-      // }
 
       for (i=0; i<locs.length; i++)
       {
-        addMarker(locs[i], map, infowindow);
+        addMarker(locs[i], map);
       }
 
       
     }
 
     //Adds a marker to the map
-    function addMarker(loc, map, infowindow)
+    function addMarker(loc, map)
     {
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(loc.lat, loc.lng),
@@ -288,23 +250,26 @@
           icon: 'http://www.nico-castro-files.com/saved_loc.svg',
           //animation: google.maps.Animation.DROP
         });
-        console.log(marker.position);
-        console.log(loc);
+        //console.log(marker.position);
 
         //Display location name when hovering over a marker
-        google.maps.event.addListener(marker, 'mouseover', (
+        // google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+        //   return function() {
+        //     infowindow.setContent('<div id="content">'+
+        //       '<div id="siteNotice">'+
+        //       '</div>'+
+        //       '<h2>Name: '+ loc.name + '</h1>'+
+        //       '<h2>Location: ' + loc.address + '</h2>' +
+        //       '<h2>Password: ' + loc.pwd + '</h2>' +
+        //       '<div id="bodyContent">'+
+        //       '<p><a href=#>Edit</a> | <a href=# class="start_delete">Delete</a> | <a href=# class="start_share">Share</a></p>'+
+        //       '</div>'+
+        //       '</div>');
+        //     infowindow.open(map, marker);
+        //   }
+        // })(marker, i));
 
-          function(marker, i) {
-          return function() {
-            infowindow.setContent(
-              '<h2>Name: '+ loc.name + '</h1>'+
-              '<h2>Location: ' + loc.address + '</h2>' +
-              '<h2>Password: ' + loc.pwd + '</h2>' +
-              '<p><a href=#>Edit</a> | <a href=#>Delete</a> | <a href=#>Share</a></p>'
-              );
-            infowindow.open(map, marker);
-          }
-        })(marker, i));
+        
 
         // Set location variable to clicked marker
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -315,30 +280,52 @@
             generate_list_by_distance(cur_loc);
 
             //Just to check output
-            for(var i in sorted_locs_by_distance)
-               console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
+            // for(var i in sorted_locs_by_distance)
+            //    console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
 
             getCurrentLocNetworks(marker);
+            
 
             var content = "";
               for(var k=0; k<current_loc_networks.length; k++)
               {
-                content += '<div id="content">'+
-                '<div id="siteNotice">'+
-                '</div>'+
+                content += '<div id=' + current_loc_networks[k].id + '>' +
                 '<h2>Name: '+ current_loc_networks[k].name + '</h1>'+
                 '<h2>Location: ' + current_loc_networks[k].address + '</h2>' +
                 '<h2>Password: ' + current_loc_networks[k].pwd + '</h2>' +
-                '<div id="bodyContent">'+
-                '<p><a href=#>Edit</a> | <a href=#>Delete</a> | <a href=#>Share</a></p>'+
-                '</div>'+
-                '</div><hr>'
-              };
+                '<p><a href=# class="start_edit">Edit</a> | <a href=# class="start_delete">Delete</a></p>' + 
+                '<p><input type="text" class="share_email_field" placeholder="enter email"> ' + 
+                '<a href=# class="start_share">Share</a></p></div><hr>';
+
+              }
+
+            infowindow = new google.maps.InfoWindow();
 
             infowindow.setContent(content);
             infowindow.open(map, marker);
+            google.maps.event.addListener(infowindow, 'domready', function() {
+              $('.start_edit').click(function(e) {
+                  var div = $(this).closest('div');
+                  console.log(div[0].id);
+                  editNetwork(div[0].id)
+              });
+
+              $('.start_delete').click(function(e) {
+                  var div = $(this).closest('div');
+                  console.log(div[0].id);
+                  deleteNetwork(div[0].id)
+              });
+
+              $('.start_share').click(function(e) {
+                  var div = $(this).closest('div');
+                  console.log(div[0].id);
+                  shareNetwork(div[0].id)
+              });
+            });
           }
         })(marker, i));
+
+        
     }
 
     function addCurrentLocMarker(map)
@@ -387,7 +374,7 @@
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data: { lat: loc.lat, lng: loc.lng, name: loc.name, address: loc.address, pwd: loc.pwd },
             success: function(data){
-              console.log(data);
+              //console.log(data);
               var obj = {
                   name: data.name,
                   lat: data.lat,
@@ -510,8 +497,6 @@
         cur_loc.name = $(".net_nickname").val();
         cur_loc.address = $(".net_address").val();
 
-        // setupMap(cur_loc.lat, cur_loc.lng);
-        // addMarker(cur_loc, map, infowindow);
         getLocation();
     });
 
@@ -592,78 +577,121 @@
           else
             cur_loc.pwd = null;
         }
-
-        // if(cur_loc.name=="" || cur_loc.address=="" || cur_loc.pwd==null)
-        //   alert ("Please fill in all fields");
-        // else
-        //   add_loc_to_db(cur_loc);
       
     });
 
-    // $('#remove_net_btn').click(function(){
-    //   $.ajax({
-    //       url: "/locations/destroy",
-    //       type: "DELETE",
-    //       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-    //       data: { name: $(this).closest('.net_info').find('.net_nickname').text(); },
-    //       success: function(data){
-    //         locs = [];
-    //         for(var i=0; i<data.length; i++)
-    //         {
-    //           var obj = {
-    //               name: data[i].name,
-    //               lat: data[i].lat,
-    //               lng: data[i].lng,
-    //               pwd: data[i].pwd,
-    //               address: data[i].address
-    //           };
-    //           locs.push(obj);
-    //         }
+    function deleteNetwork(network_id)
+    {
+      $.ajax({
+        url: "/locations/" + network_id,
+        type: 'DELETE',
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        data: { id: network_id },
+        success: function(data){
+          console.log(data);
+          locs = [];
+          for(var i=0; i<data.length; i++)
+          {
+              var obj = {
+                  name: data[i].name,
+                  lat: data[i].lat,
+                  lng: data[i].lng,
+                  pwd: data[i].pwd,
+                  address: data[i].address,
+                  id: data[i].id
+                };
+              locs.push(obj);
+          }
+          reset_location(cur_loc);
+          cur_loc.lat = current_location.lat;
+          cur_loc.lng = current_location.lng;
+          setupMap(cur_loc.lat, cur_loc.lng);
+        }
+      });
+    }
 
-    //         setupMap(cur_loc.lat, cur_loc.lng);
-    //         //addMarker(data, map, infowindow);
-    //         reset_fields();
-    //         reset_location(loc);
-    //       }
-    //   });
-    // });
+    //Gets the networks data from DB and calls setEditFields
+    function editNetwork(network_id)
+    {
+      var location;
+      $.ajax({
+        url: "/locations/" + network_id + "/edit",
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        data: { id: network_id },
+        success: function(data){
+          cur_loc = data;
+          setEditFields(cur_loc);
+        }
+      });
+    }
 
-    // $('#edit_net_btn').click(function(){
-    //   $.ajax({
-    //       url: "/locations/update",
-    //       type: "PUT",
-    //       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-    //       data: { name: $(this).closest('.net_info').find('.net_nickname').text(); },
-    //       success: function(data){
-    //         locs = [];
-    //         for(var i=0; i<data.length; i++)
-    //         {
-    //           var obj = {
-    //               name: data[i].name,
-    //               lat: data[i].lat,
-    //               lng: data[i].lng,
-    //               pwd: data[i].pwd,
-    //               address: data[i].address
-    //           };
-    //           locs.push(obj);
-    //         }
-    //         setupMap(cur_loc.lat, cur_loc.lng);
-    //         //addMarker(data, map, infowindow);
-    //         reset_fields();
-    //         reset_location(loc);
-    //       }
-    //   });
-    // });
+    //Updates DB by adding network to the location of the user specified
+    function shareNetwork(network_id)
+    {
+      email = $('.share_email_field').val();
+      $.ajax({
+        url: "/locations/" + network_id + "/share",
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        data: { id: network_id, email: email },
+        success: function(data){
+          cur_loc = data;
+          alert("Locations has been successfully shared!");
+          //setEditFields(cur_loc);
+        }
+      });
+    }
+
+    //Popoulates the edit form fields
+    function setEditFields(loc)
+    {
+      $('.edit_name_field').val(loc.name);
+      $('.edit_address_field').val(loc.address);
+      $('.edit_password_field').val(loc.pwd);
+    }
+
+    function editNetworkAjax(name, address, pwd)
+    {
+      $.ajax({
+          url: "/locations/" + cur_loc.id,
+          type: "PUT",
+          beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+          data: { name: name, address: address, pwd: pwd, id: cur_loc.id },
+          success: function(data){
+            console.log(data);
+            locs = [];
+            for(var i=0; i<data.length; i++)
+            {
+                var obj = {
+                    name: data[i].name,
+                    lat: data[i].lat,
+                    lng: data[i].lng,
+                    pwd: data[i].pwd,
+                    address: data[i].address,
+                    id: data[i].id
+                  };
+                locs.push(obj);
+            }
+            setupMap(cur_loc.lat, cur_loc.lng);
+          }
+      });
+    }
+
+    //Event handler for click of edit button in edit form. AJAX request to update network and then sets up map
+    $("#edit_net_btn").click(function(){
+
+      var name = $('.edit_name_field').val();
+      var address = $('.edit_address_field').val();
+      var pwd = $('.edit_password_field').val();
+      var l = "/locations/" + cur_loc.id;
+
+      editNetworkAjax(name, address, pwd);
+    });
   
+  //Gets gps location and populates map upon load
   getLocation();
     
 })();
   </script>
-
-
-
-
-
 
 
 
