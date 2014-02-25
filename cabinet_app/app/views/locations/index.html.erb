@@ -76,7 +76,7 @@ $(function(){
 
       var mapOptions = {
           center: new google.maps.LatLng(myLocation.lat(),myLocation.lng()),
-          zoom: 14,
+          zoom: 11,
           streetViewControl: false,
           mapTypeControl: false,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -210,9 +210,11 @@ $(function(){
           animation: google.maps.Animation.DROP
         });
 
-      google.maps.event.addListener(marker, 'click', function() {
-        $('#content_box').removeClass("hidden");
-      });
+      google.maps.event.addListener(marker, 'click', (function(marker) {
+        return function() {
+          $('#content_box').removeClass("hidden");
+        }
+      })(marker));
     }
 
     function getCurrentLocNetworks(marker)
