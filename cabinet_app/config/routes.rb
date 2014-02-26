@@ -1,5 +1,8 @@
 Contacts::Application.routes.draw do
 
+  resources :chatlines
+
+
   resources :locations
 
 
