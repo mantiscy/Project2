@@ -12,7 +12,6 @@ $(function(){
   //alert('reload');
 
     var locs = [];
-    //var locations = [];
     var sorted_locs_by_distance = [];
     var current_loc_networks = [];
     var cur_lat;
@@ -109,7 +108,7 @@ $(function(){
       }
       
       generate_list_by_distance(cur_loc);
-      populateSideTab();
+      populateSideTab(sorted_locs_by_distance);
       
     }
 
@@ -135,7 +134,7 @@ $(function(){
                 }
               })(marker));
             }
-            populateSideTab();
+            populateSideTab(sorted_locs_by_distance);
 
             var content = '<p><a href=# class="show_add_network_form">Add network</a><br><hr>';
               for(var k=0; k<current_loc_networks.length; k++)
@@ -427,6 +426,19 @@ $(function(){
       }
     });  
   });
+
+    $('#list_search_field').keyup(function(){
+      var results = []
+      var str = $('#list_search_field').val();
+      for(var i=0; i<sorted_locs_by_distance.length; i++)
+      {
+        //console.log(sorted_locs_by_distance[i].name.search(str));
+        if((sorted_locs_by_distance[i].name).search(str) >= 0 || (sorted_locs_by_distance[i].address).search(str) >= 0)
+          results.push(sorted_locs_by_distance[i]);
+      }
+      //console.log(results);
+      populateSideTab(results);
+    });
    
 
     // Adds new location: First checks user input for required fields and then calls function
@@ -650,12 +662,12 @@ $(function(){
     });
   
 
-  function populateSideTab()
+  function populateSideTab(locations)
   {
     $('#loc_net_list').html('');
-    for(var i=0; i<sorted_locs_by_distance.length; i++)
+    for(var i=0; i<locations.length; i++)
     {
-      $('#loc_net_list').append( '<div class="net_info" id=' + sorted_locs_by_distance[i].id + '><table><tr class="net_nickname"><td class="boldify">Nickname:</td><td>' + sorted_locs_by_distance[i].name + '</td></tr><tr class="net_realname"><td class="boldify">Network:</td><td>' + sorted_locs_by_distance[i].address + '</td></tr><tr class="net_pass"><td class="boldify">Password:</td><td>' + sorted_locs_by_distance[i].pwd + '</td></tr><tr class="net_distance"><td class="boldify">Distance:</td><td>' + Math.round((sorted_locs_by_distance[i].distance) * 100)/100 + 'km</td></tr></table><input type="submit" id="edit_from_list_btn" value="Edit"><input type="submit" id="delete_from_list_btn" value="Delete"><input type="submit" id="share_net_btn" value="Share"></div>' );
+      $('#loc_net_list').append( '<div class="net_info" id=' + locations[i].id + '><table><tr class="net_nickname"><td class="boldify">Nickname:</td><td>' + locations[i].name + '</td></tr><tr class="net_realname"><td class="boldify">Network:</td><td>' + locations[i].address + '</td></tr><tr class="net_pass"><td class="boldify">Password:</td><td>' + locations[i].pwd + '</td></tr><tr class="net_distance"><td class="boldify">Distance:</td><td>' + Math.round((locations[i].distance) * 100)/100 + 'km</td></tr></table><input type="submit" id="edit_from_list_btn" value="Edit"><input type="submit" id="delete_from_list_btn" value="Delete"><input type="submit" id="share_net_btn" value="Share"></div>' );
     }
 
     $('#edit_from_list_btn').click(function(e) {
@@ -863,6 +875,7 @@ $(function(){
 <code id="jq1" class="html" style="overflow:auto">
   <div id="extruderRight" class="{title:'List View'}">
     <div class="content">
+      <input type="text" id="list_search_field" placeholder='Search list'>
       <div id="loc_net_list">
       </div>
     </div>

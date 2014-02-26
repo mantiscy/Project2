@@ -533,6 +533,15 @@ left: 78px;
   width: 62%;
 }
 
+#list_search_field {
+  padding: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: 'Arial', sans-serif;
+  font-size: 17px;
+  /*width: 62%;*/
+}
+
 #content_box {
   position: absolute;
   top: 120px;
