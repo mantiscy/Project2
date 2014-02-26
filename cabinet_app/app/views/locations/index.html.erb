@@ -479,11 +479,13 @@ $(function(){
       
     });
 
-    $('#cancel_add_btn').click(function(){
+    $('#cancel_add_btn').click(function(ev){
+      ev.preventDefault();
       $('#content_box').addClass("hidden");
     });
 
-    $('#cancel_edit_btn').click(function(){
+    $('#cancel_edit_btn').click(function(ev){
+      ev.preventDefault();
       $('#edit_content_box').addClass("hidden");
     });
 
@@ -645,8 +647,21 @@ $(function(){
     $('#loc_net_list').html('');
     for(var i=0; i<sorted_locs_by_distance.length; i++)
     {
-      $('#loc_net_list').append( '<div class="net_info"><table><tr class="net_nickname"><td class="boldify">Nickname:</td><td>' + sorted_locs_by_distance[i].name + '</td></tr><tr class="net_realname"><td class="boldify">Network:</td><td>' + sorted_locs_by_distance[i].address + '</td></tr><tr class="net_pass"><td class="boldify">Password:</td><td>' + sorted_locs_by_distance[i].pwd + '</td></tr><tr class="net_distance"><td class="boldify">Distance:</td><td>' + Math.round((sorted_locs_by_distance[i].distance) * 100)/100 + 'km</td></tr></table><input type="submit" id="edit_net_btn" value="Edit"><input type="submit" id="delete_net_btn" value="Delete"><input type="submit" id="share_net_btn" value="Share"></div>' );
+      $('#loc_net_list').append( '<div class="net_info" id=' + sorted_locs_by_distance[i].id + '><table><tr class="net_nickname"><td class="boldify">Nickname:</td><td>' + sorted_locs_by_distance[i].name + '</td></tr><tr class="net_realname"><td class="boldify">Network:</td><td>' + sorted_locs_by_distance[i].address + '</td></tr><tr class="net_pass"><td class="boldify">Password:</td><td>' + sorted_locs_by_distance[i].pwd + '</td></tr><tr class="net_distance"><td class="boldify">Distance:</td><td>' + Math.round((sorted_locs_by_distance[i].distance) * 100)/100 + 'km</td></tr></table><input type="submit" id="edit_from_list_btn" value="Edit"><input type="submit" id="delete_from_list_btn" value="Delete"><input type="submit" id="share_net_btn" value="Share"></div>' );
     }
+
+    $('#edit_from_list_btn').click(function(e) {
+          var div = $(this).closest('div');
+          var id = div[0].id;
+          console.log(id);
+          $('#edit_content_box').removeClass("hidden");
+          editNetwork(id);
+      });
+
+    $('#delete_from_list_btn').click(function(e) {
+          var div = $(this).closest('div');
+          deleteNetwork(div[0].id);
+      });
   }
 
   $('#chat_submit').click(function(ev){

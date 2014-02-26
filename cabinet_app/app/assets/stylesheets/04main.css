@@ -424,7 +424,7 @@ left: 78px;
   font-weight: 300;
 }
 
-#edit_net_btn, #delete_net_btn, #share_net_btn, #cancel_add_btn, #cancel_edit_btn {
+#edit_net_btn, #delete_net_btn, #share_net_btn, #cancel_add_btn, #cancel_edit_btn, #edit_from_list_btn, #delete_from_list_btn {
   /*color: #b3fff1;*/
   color: white;
   padding: 8px;
