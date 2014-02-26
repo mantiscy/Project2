@@ -1,6 +1,8 @@
 class ChatlinesController < ApplicationController
   # GET /chatlines
   # GET /chatlines.json
+
+
   def index
     @chatlines = Chatline.all
 
@@ -40,16 +42,46 @@ class ChatlinesController < ApplicationController
   # POST /chatlines
   # POST /chatlines.json
   def create
-    @chatline = Chatline.new(params[:chatline])
+
+    if request.xhr?
+      @chatline = Chatline.new
+      @chatline.user = current_user
+      @chatline.message = params['chatline']
+      @chatline.email = current_user.email
+    else
+      @chatline = Chatline.new
+      @chatline.user = current_user
+      @chatline.message = params[:chatline]
+    end
 
     respond_to do |format|
       if @chatline.save
-        format.html { redirect_to @chatline, notice: 'Chatline was successfully created.' }
-        format.json { render json: @chatline, status: :created, location: @chatline }
+        @chatlines = Chatline.all
+        if request.xhr?
+          format.json { render json: [@chatlines, @chatline]}
+        else
+          format.html { redirect_to locations_path }
+        end
       else
-        format.html { render action: "new" }
-        format.json { render json: @chatline.errors, status: :unprocessable_entity }
+        format.html { redirect_to locations_url }
+        format.json { render json: @location.errors, status: :unprocessable_entity }
       end
+    end
+
+  end
+
+  def autoUpdate
+    if request.xhr?
+
+      @chatlines = Chatline.all
+
+      respond_to do |format|
+    if request.xhr?
+        format.json { render json: @chatlines}
+      else
+        format.html { redirect_to locations_path }
+      end
+    end
     end
   end
 
