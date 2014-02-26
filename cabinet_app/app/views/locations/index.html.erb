@@ -426,6 +426,7 @@ $(function(){
     //for ajax call which adds network to the db.
     $('#add_net_btn').click(function(ev)
     {
+        ev.preventDefault();
         cur_loc.name = $(".net_nickname").val();
         cur_loc.address = $(".net_address").val();
         
