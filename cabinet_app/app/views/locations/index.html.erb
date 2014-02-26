@@ -134,7 +134,7 @@ $(function(){
             }
             populateSideTab();
 
-            var content = "";
+            var content = '<p><a href=# class="show_add_network_form">Add network</a><br><hr>';
               for(var k=0; k<current_loc_networks.length; k++)
               {
                 content += '<div id=' + current_loc_networks[k].id + '>' +
@@ -167,6 +167,10 @@ $(function(){
               $('.start_share').click(function(e) {
                   var div = $(this).closest('div');
                   shareNetwork(div[0].id);
+              });
+
+              $('.show_add_network_form').click(function(e) {
+                  $('#content_box').removeClass("hidden");
               });
             });
           }
@@ -688,9 +692,6 @@ $(function(){
 
                 $('#display_chatlines').text("")
 
-
-                //data = data.reverse();
-                console.log(data);
                 for(var i=0; i<data.length; i++)
                 {
                   if(data[i].email == user.email)
