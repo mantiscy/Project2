@@ -22,12 +22,21 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.json
   def show
-    @location = Location.find(params[:id])
+
+    if request.xhr?
+      @location = Location.find(params['id'])
+    else
+      @location = Location.find(params[:id])
+    end
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @location }
+      if request.xhr?
+        format.json { render json: @location }
+      else
+        format.html # show.html.erb
+      end
     end
+
   end
 
   def landing
@@ -134,6 +143,7 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
+        puts "<<<<<<<#{@location.pwd}>>>>>>"
         @locations = current_user.locations
         if request.xhr?
           format.json { render json: @locations}

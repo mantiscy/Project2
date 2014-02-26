@@ -145,20 +145,37 @@ $(function(){
             google.maps.event.addListener(infowindow, 'domready', function() {
               $('.start_edit').click(function(e) {
                   var div = $(this).closest('div');
-                  console.log(div[0].id);
-                  editNetwork(div[0].id)
+                  var id = div[0].id;
+                  //console.log(id);
+                  $('#edit_content_box').removeClass("hidden");
+                  editNetwork(id);
+                  // $.ajax({
+                  //   url: "/locations/" + div[0].id,
+                  //   beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                  //   data: { id: id },
+                  //   success: function(data){
+                  //     cur_loc = data;
+                  //     console.log(cur_loc);
+                  //   }
+                  // });
+                  
+                  
+                  // $('.edit_name_field').val(loc.name);
+                  // $('.edit_address_field').val(loc.address);
+                  // $('.edit_password_field').val(loc.pwd);
+                  //$('#content_box').removeClass("hidden");
               });
 
               $('.start_delete').click(function(e) {
                   var div = $(this).closest('div');
                   console.log(div[0].id);
-                  deleteNetwork(div[0].id)
+                  deleteNetwork(div[0].id);
               });
 
               $('.start_share').click(function(e) {
                   var div = $(this).closest('div');
                   console.log(div[0].id);
-                  shareNetwork(div[0].id)
+                  shareNetwork(div[0].id);
               });
             });
           }
@@ -326,8 +343,6 @@ $(function(){
     $('#calculate').click(function()
     {
       generate_list_by_distance(cur_loc);
-      for(var i in sorted_locs_by_distance)
-         console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
     });
 
     $('#reset').click(function()
@@ -365,7 +380,6 @@ $(function(){
   // Search action: Moves map and adds marker to first result of search
 
   $('#search_btn').click( function(ev){
-    console.log("test");
     reset_location(cur_loc);
     var address = $(".search_field").val();
     geocoder.geocode( { 'address': address}, function(results, status) {
@@ -380,8 +394,6 @@ $(function(){
 
         //Generates list order by distance from search point of existing locations 
         generate_list_by_distance(cur_loc);
-        for(var i in sorted_locs_by_distance)
-           console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
 
         setupMap(cur_loc.lat, cur_loc.lng);
         addNewLocMarker(cur_loc, map);
@@ -451,7 +463,6 @@ $(function(){
         beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
         data: { id: network_id },
         success: function(data){
-          console.log(data);
           locs = [];
           for(var i=0; i<data.length; i++)
           {
@@ -507,20 +518,22 @@ $(function(){
     //Popoulates the edit form fields
     function setEditFields(loc)
     {
-      $('.edit_name_field').val(loc.name);
-      $('.edit_address_field').val(loc.address);
-      $('.edit_password_field').val(loc.pwd);
+      $(".edit_net_nickname").val(loc.name);
+      $('.edit_net_address').val(loc.address);
+      $('.edit_net_pass').val(loc.pwd);
+      //$('#edit_content_box').removeClass("hidden");
     }
 
     function editNetworkAjax(name, address, pwd)
-    {
+    { 
+      //console.log(cur_loc.id);
+      var url = "/locations/" + cur_loc.id;
       $.ajax({
-          url: "/locations/" + cur_loc.id,
+          url: url,
           type: "PUT",
           beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
           data: { name: name, address: address, pwd: pwd, id: cur_loc.id },
           success: function(data){
-            console.log(data);
             locs = [];
             for(var i=0; i<data.length; i++)
             {
@@ -533,6 +546,7 @@ $(function(){
                     id: data[i].id
                   };
                 locs.push(obj);
+                $('#edit_content_box').addClass("hidden");
             }
             setupMap(cur_loc.lat, cur_loc.lng);
           }
@@ -540,14 +554,13 @@ $(function(){
     }
 
     //Event handler for click of edit button in edit form. AJAX request to update network and then sets up map
-    $("#edit_net_btn").click(function(){
+    $("#edit_net_btn").click(function(ev){
 
-      var name = $('.edit_name_field').val();
-      var address = $('.edit_address_field').val();
-      var pwd = $('.edit_password_field').val();
-      var l = "/locations/" + cur_loc.id;
+      cur_loc.name = $(".edit_net_nickname").val();
+      cur_loc.address = $('.edit_net_address').val();
+      cur_loc.pwd = $('.edit_net_pass').val();
 
-      editNetworkAjax(name, address, pwd);
+      editNetworkAjax(cur_loc.name, cur_loc.address, cur_loc.pwd);
     });
   
 
@@ -607,16 +620,16 @@ $(function(){
   <div id="location" class="sixteen columns alpha omega">
     <div id="loc_form">
       <form>
-        <h2>Add Network at New Location</h2>
+        <h2>Network Information</h2>
         <table>
         <tr>
           <td>Nickname:</td>
           <td><input type="text" class="net_nickname"></td>
         </tr>
-        <tr>
+<!--         <tr>
           <td>Network name:</td>
           <td><input type="text" class="net_realname"></td>
-        </tr>
+        </tr> -->
         <tr>
           <td>Street Address:</td>
           <td><input type="text" class="net_address"></td>
@@ -627,6 +640,36 @@ $(function(){
         </tr>
         </table>
         <button id="add_net_btn">Add Location</button>
+      </form>
+    </div> <!-- closes #loc_form -->
+  </div> <!-- closes #location -->
+</div> <!-- closes #content_box -->
+
+<div id="edit_content_box" class="hidden">
+
+  <div id="location" class="sixteen columns alpha omega">
+    <div id="loc_form">
+      <form>
+        <h2>Network Information</h2>
+        <table>
+        <tr>
+          <td>Nickname:</td>
+          <td><input type="text" class="edit_net_nickname"></td>
+        </tr>
+<!--         <tr>
+          <td>Network name:</td>
+          <td><input type="text" class="edit_net_realname"></td>
+        </tr> -->
+        <tr>
+          <td>Street Address:</td>
+          <td><input type="text" class="edit_net_address"></td>
+        </tr>
+        <tr>
+          <td>Password:</td>
+          <td><input type="text" class="edit_net_pass"></td>
+        </tr>
+        </table>
+        <button id="edit_net_btn">Edit Location</button>
       </form>
     </div> <!-- closes #loc_form -->
   </div> <!-- closes #location -->

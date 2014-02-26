@@ -391,6 +391,13 @@ h2 {
   right: 20%;
 }
 
+#edit_content_box {
+  position: absolute;
+  top: 120px;
+  left: 20%;
+  right: 20%;
+}
+
 .hidden {
   display: none;
 }
