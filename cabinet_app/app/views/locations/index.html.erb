@@ -542,9 +542,17 @@ $(function(){
         beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
         data: { id: network_id, email: email },
         success: function(data){
-          cur_loc = data;
-          alert("Locations has been successfully shared!");
-          //setEditFields(cur_loc);
+
+          if(data.length > 0)
+          {
+            cur_loc = data;
+            alert("Locations has been successfully shared!");
+            //setEditFields(cur_loc);
+          }
+          else
+          {
+            alert('The user email you entered is not valid');
+          }
         }
       });
     }
