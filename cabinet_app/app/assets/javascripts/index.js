@@ -24,7 +24,8 @@ $(function(){
 
             $("#extruderBottom").buildMbExtruder({
                 position:"bottom",
-                width:380,
+                width:480,
+                overflow:"scroll",
                 extruderOpacity:1,
                 onExtOpen:function(){},
                 onExtContentLoad:function(){},

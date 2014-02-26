@@ -376,6 +376,11 @@ left: 78px;
   padding: 15px 20px 0px 0px;
 }
 
+#chat_window {
+  max-height: 400px;
+  overflow: scroll;
+}
+
 #chat_window table {
   width: inherit;
 }
@@ -397,7 +402,11 @@ left: 78px;
   border-bottom: 8px solid white;
 }
 
-#chat_window .chat_input{
+#chat_enter_text {
+  margin-top: 10px;
+}
+
+#chat_enter_text .chat_input{
   padding: 8px 5px 5px 5px;
   font-family: 'Arial', sans-serif;
   font-size: 14px;
