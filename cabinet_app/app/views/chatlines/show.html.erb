@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Email:</b>
+  <%= @chatline.email %>
+</p>
+
+<p>
+  <b>Message:</b>
+  <%= @chatline.message %>
+</p>
+
+
+<%= link_to 'Edit', edit_chatline_path(@chatline) %> |
+<%= link_to 'Back', chatlines_path %>

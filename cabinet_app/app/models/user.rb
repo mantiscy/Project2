@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   has_and_belongs_to_many :locations
+  has_many :chatlines
 
   def self.find_for_facebook_oauth(auth)
     puts auth

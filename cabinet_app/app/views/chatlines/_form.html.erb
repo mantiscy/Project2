@@ -1,0 +1,38 @@
+<%= form_for(@chatline, remote: true) do |f| %>
+  <% if @chatline.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@chatline.errors.count, "error") %> prohibited this chatline from being saved:</h2>
+
+      <ul>
+      <% @chatline.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <code id="jq1" class="html" style="overflow:auto">
+  <div id="extruderBottom" class="{title:'Chat'}">
+    <div class="content">
+      <div id="chat_window">
+        <table id = 'display_chatlines'>
+        </table><%= hidden_field_tag :since, Time.now().to_i %>
+      </div>
+        <div class="field" id='chat_enter_text'>
+          
+          <%= f.text_field :message, class: 'chat_input', :placeholder => "type message then press enter to send" %>
+        </div>
+        <div class="actions" id='chat_submit'>
+          <%= f.submit %>
+        </div>
+        <!-- <input type="text" class="chat_input" placeholder="type message then press enter to send"> -->
+      </div>
+    </div>
+  </div>
+  </code>
+<% end %>
+
+<!-- <div id="chat_enter_text">
+        <input type="text" class="chat_input" placeholder="type message then press enter to send">
+      </div> -->

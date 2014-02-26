@@ -7,6 +7,7 @@ class LocationsController < ApplicationController
     #@locations = Location.all
 
     @locations = current_user.locations
+    @chatline = Chatline.new
 
     respond_to do |format|
       

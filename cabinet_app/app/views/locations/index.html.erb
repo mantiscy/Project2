@@ -9,7 +9,7 @@
 <script>
 $(function(){ 
 
-  alert('reload');
+  //alert('reload');
 
     var locs = [];
     //var locations = [];
@@ -22,6 +22,10 @@ $(function(){
     var geocoder;
     var current_location = {};
     var cur_loc = {};
+    var user = {
+      email: "<%= current_user.email %>",
+      id: <%= current_user.id %>
+    };
 
     // <% @locations.each do |loc| %>
     //     var obj = {
@@ -635,9 +639,81 @@ $(function(){
       $('#loc_net_list').append( '<div class="net_info"><table><tr class="net_nickname"><td class="boldify">Nickname:</td><td>' + sorted_locs_by_distance[i].name + '</td></tr><tr class="net_realname"><td class="boldify">Network:</td><td>' + sorted_locs_by_distance[i].address + '</td></tr><tr class="net_pass"><td class="boldify">Password:</td><td>' + sorted_locs_by_distance[i].pwd + '</td></tr><tr class="net_distance"><td class="boldify">Distance:</td><td>' + Math.round((sorted_locs_by_distance[i].distance) * 100)/100 + 'km</td></tr></table><input type="submit" id="edit_net_btn" value="Edit"><input type="submit" id="delete_net_btn" value="Delete"><input type="submit" id="share_net_btn" value="Share"></div>' );
     }
   }
+
+  $('#chat_submit').click(function(ev){
+      ev.preventDefault();
+
+      var msg = $('#chatline_message').val();
+      var since = $('#since').val();
+      console.log(since);
+
+      $.ajax({
+            url: "/chatlines",
+            type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            data: { chatline: msg, since: since },
+            success: function(data){
+              console.log(data);
+
+              $('#display_chatlines').text('');
+              $('#chatline_message').val("");
+              for(var i=0; i<data[0].length; i++)
+              {
+                  if(data[0][i].email == user.email)
+                  {
+                    $('#display_chatlines').append( '<tr id="current_user" class="chatline">' +
+                                            '<td class="boldify">' + data[0][i].email + ': </td>' +
+                                            '<td>' + data[0][i].message + '</td></tr>' );
+                  }
+                  else
+                  {
+                    $('#display_chatlines').append( '<tr id="other_user" class="chatline">' +
+                                            '<td class="boldify">' + data[0][i].email + ': </td>' +
+                                            '<td>' + data[0][i].message + '</td></tr>' );
+                  }
+              }
+            }
+        });
+    });
+
+    function reloadMsgs(){
+
+        var since = (new Date).getTime();
+
+        $.ajax({
+            url: '/autoUpdate',
+            data: { since: since },
+            success: function(data) {
+
+                $('#display_chatlines').text("")
+
+
+                //data = data.reverse();
+                console.log(data);
+                for(var i=0; i<data.length; i++)
+                {
+                  if(data[i].email == user.email)
+                  {
+                    $('#display_chatlines').append( '<tr id="current_user" class="chatline">' +
+                                            '<td class="boldify">' + data[i].email + ': </td>' +
+                                            '<td>' + data[i].message + '</td></tr>' );
+                  }
+                  else
+                  {
+                    $('#display_chatlines').append( '<tr id="other_user" class="chatline">' +
+                                            '<td class="boldify">' + data[i].email + ': </td>' +
+                                            '<td>' + data[i].message + '</td></tr>' );
+                  }
+
+                }
+            }
+        });
+    };
   
   //Gets gps location and populates map upon load
   getLocation();
+  window.setInterval(function(){reloadMsgs()},1000);
+  //reloadMsgs();
     
 })();
 
@@ -754,71 +830,12 @@ $(function(){
   </div>
 </code>
 
-<code id="jq1" class="html" style="overflow:auto">
-  <div id="extruderBottom" class="{title:'Chat'}">
-    <div class="content">
-      <div id="chat_window">
-        <table>
-          <tr id="current_user" class="chatline">
-            <td class="boldify">nicollecastrog_puppy@gmail.com</td>
-            <td>Hey Jake, how are you?</td>
-          </tr>
-          <tr id="other_user" class="chatline">
-            <td class="boldify">jakeloveslondon@gmail.com</td>
-            <td>Good good, you?</td>
-          </tr>
-          <tr id="other_user" class="chatline">
-            <td class="boldify">tomjones@gmail.com</td>
-            <td>Thanks for asking how I am guys!</td>
-          </tr>
-          <tr id="current_user" class="chatline">
-            <td class="boldify">nicollecastrog_puppy@gmail.com</td>
-            <td>Sorry Tom...</td>
-          </tr>
-          <tr id="current_user" class="chatline">
-            <td class="boldify">nicollecastrog_puppy@gmail.com</td>
-            <td>Hey Jake, how are you?</td>
-          </tr>
-          <tr id="other_user" class="chatline">
-            <td class="boldify">jakeloveslondon@gmail.com</td>
-            <td>Good good, you?</td>
-          </tr>
-          <tr id="other_user" class="chatline">
-            <td class="boldify">tomjones@gmail.com</td>
-            <td>Thanks for asking how I am guys!</td>
-          </tr>
-          <tr id="current_user" class="chatline">
-            <td class="boldify">nicollecastrog_puppy@gmail.com</td>
-            <td>Sorry Tom...</td>
-          </tr>
-          <tr id="current_user" class="chatline">
-            <td class="boldify">nicollecastrog_puppy@gmail.com</td>
-            <td>Sorry Tom...</td>
-          </tr>
-          <tr id="current_user" class="chatline">
-            <td class="boldify">nicollecastrog_puppy@gmail.com</td>
-            <td>Hey Jake, how are you?</td>
-          </tr>
-          <tr id="other_user" class="chatline">
-            <td class="boldify">jakeloveslondon@gmail.com</td>
-            <td>Good good, you?</td>
-          </tr>
-          <tr id="other_user" class="chatline">
-            <td class="boldify">tomjones@gmail.com</td>
-            <td>Thanks for asking how I am guys!</td>
-          </tr>
-          <tr id="current_user" class="chatline">
-            <td class="boldify">nicollecastrog_puppy@gmail.com</td>
-            <td>Sorry Tom...</td>
-          </tr>
-        </table>
-      </div> <!-- closes #chat_window -->
-      <div id="chat_enter_text">
-        <input type="text" class="chat_input" placeholder="type message then press enter to send">
-      </div>
-    </div>
-  </div>
-  </code>
+
+
+
+
+    <%= render partial: 'chatlines/form' %>
+
 
 
 
