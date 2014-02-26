@@ -27,6 +27,9 @@ $(function(){
       id: <%= current_user.id %>
     };
 
+    var element = document.getElementById("chat_window");
+    var lastHeight = element.scrollHeight;
+
     // <% @locations.each do |loc| %>
     //     var obj = {
     //       name: "<%= loc.name %>",
@@ -134,7 +137,7 @@ $(function(){
             }
             populateSideTab();
 
-            var content = "";
+            var content = '<p><a href=# class="show_add_network_form">Add network</a><br><hr>';
               for(var k=0; k<current_loc_networks.length; k++)
               {
                 content += '<div id=' + current_loc_networks[k].id + '>' +
@@ -167,6 +170,10 @@ $(function(){
               $('.start_share').click(function(e) {
                   var div = $(this).closest('div');
                   shareNetwork(div[0].id);
+              });
+
+              $('.show_add_network_form').click(function(e) {
+                  $('#content_box').removeClass("hidden");
               });
             });
           }
@@ -227,7 +234,7 @@ $(function(){
       generate_list_by_distance(cur_loc);
       for(var i=0; i<sorted_locs_by_distance.length; i++)
       {
-        if (sorted_locs_by_distance[i].distance < 0.01)
+        if (sorted_locs_by_distance[i].distance < 0.015)
         {
           current_loc_networks.push(sorted_locs_by_distance[i]);
         }
@@ -673,6 +680,11 @@ $(function(){
                                             '<td>' + data[0][i].message + '</td></tr>' );
                   }
               }
+              var currentHeight = element.scrollHeight;
+              if(lastHeight != currentHeight){
+                  element.scrollTop = currentHeight;
+                  lastHeight = currentHeight;
+                }
             }
         });
     });
@@ -688,9 +700,6 @@ $(function(){
 
                 $('#display_chatlines').text("")
 
-
-                //data = data.reverse();
-                console.log(data);
                 for(var i=0; i<data.length; i++)
                 {
                   if(data[i].email == user.email)
@@ -707,6 +716,11 @@ $(function(){
                   }
 
                 }
+                var currentHeight = element.scrollHeight;
+                if(lastHeight != currentHeight){
+                    element.scrollTop = currentHeight;
+                    lastHeight = currentHeight;
+                  }
             }
         });
     };
