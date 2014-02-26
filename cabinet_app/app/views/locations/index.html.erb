@@ -588,6 +588,7 @@ $(function(){
     //Event handler for click of edit button in edit form. AJAX request to update network and then sets up map
     $("#edit_net_btn").click(function(ev){
 
+      ev.preventDefault();
       cur_loc.name = $(".edit_net_nickname").val();
         cur_loc.address = $(".edit_net_address").val();
         

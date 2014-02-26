@@ -14,4 +14,9 @@
 //= require jquery_ujs
 //= require_tree .
 
-
+$(function(){ 
+    $('a#edit_back').click(function(ev){
+        ev.preventDefault();
+        window.location.replace("http://localhost:3000");
+      });
+  });

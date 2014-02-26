@@ -33,7 +33,7 @@
 
         <p>
           Unhappy?<br>Cancel your account by clickling below: <%= button_to "Cancel my account", registration_path(resource_name), :id => "delete_user_btn" , :data => { :confirm => "Are you sure?" }, :method => :delete %>
-          <%= link_to "Back", :back %>
+          <%= link_to "Back", :back, id: 'edit_back' %>
         </p>
 
     </div> <!-- closes edit_user_form -->
