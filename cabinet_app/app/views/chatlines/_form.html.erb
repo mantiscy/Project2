@@ -17,10 +17,10 @@
     <div class="content">
       <div id="chat_window">
         <table id = 'display_chatlines'>
-        </table>
-        <div class="field">
-          <%= hidden_field_tag :since, Time.now().to_i %>
-          <%= f.label :message %><br />
+        </table><%= hidden_field_tag :since, Time.now().to_i %>
+      </div>
+        <div class="field" id='chat_enter_text'>
+          
           <%= f.text_field :message, class: 'chat_input', :placeholder => "type message then press enter to send" %>
         </div>
         <div class="actions" id='chat_submit'>
@@ -33,4 +33,6 @@
   </code>
 <% end %>
 
-
+<!-- <div id="chat_enter_text">
+        <input type="text" class="chat_input" placeholder="type message then press enter to send">
+      </div> -->
