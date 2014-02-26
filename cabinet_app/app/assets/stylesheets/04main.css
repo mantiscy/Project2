@@ -125,11 +125,12 @@ html, body {height: 100%;}
 } 
 
 #footer p {
-  text-align: center;
-  max-width: 960px;
+  text-align: left;
+  /*max-width: 960px;*/
   margin: 0 auto;
   padding-top: 12px;
   color: gray;
+  margin-left: 25px;
 }
 
 #footer a {
@@ -288,14 +289,30 @@ h2 {
 }*/
 
 .extruder.right .flap .flapLabel {
-  background: #1f8c8c;
   font-family: 'Alegreya Sans', sans-serif;
   font-weight: 300;
   color: white;
   border-right: none;
 }
 
+.extruder.bottom .flap .flapLabel {
+  font-family: 'Alegreya Sans', sans-serif;
+  font-weight: 400;
+  color: white;
+  border: none;
+}
+
+#extruderBottom > div > div.flap > span {
+position: absolute;
+top: 10px;
+left: 78px;
+}
+
 .extruder.right .flap{
+  font-family: 'Alegreya Sans', sans-serif;
+}
+
+.extruder.bottom .flap{
   font-family: 'Alegreya Sans', sans-serif;
 }
 
@@ -315,8 +332,19 @@ h2 {
   padding: 10px;
 }
 
+#chat_window {
+  font-family: 'Alegreya Sans', sans-serif;
+  padding: 10px;
+  background: rgba(255, 255, 255, 1);
+}
+
 .extruder .text {
+  font-family: 'Alegreya Sans', sans-serif;
   background: #1f8c8c;
+}
+
+#current_user {
+  color: #f16c2e;
 }
 
 .net_info {
@@ -326,6 +354,7 @@ h2 {
   margin-bottom: 10px;
   font-weight: 300;
 }
+
 
 #edit_net_btn, #delete_net_btn, #share_net_btn {
   /*color: #b3fff1;*/
@@ -346,6 +375,34 @@ h2 {
 
 #loc_net_list table td {
   padding: 15px 20px 0px 0px;
+}
+
+#chat_window table {
+  width: inherit;
+}
+
+#other_user {
+  background-color: #E9EDF2;
+}
+
+#chat_window table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#chat_window table td {
+  padding: 5px;
+}
+
+#chat_window table tr {
+  border-bottom: 8px solid white;
+}
+
+#chat_window .chat_input{
+  padding: 8px 5px 5px 5px;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  width: 96%;
 }
 
 #loc_net_list table tr:first-child td {

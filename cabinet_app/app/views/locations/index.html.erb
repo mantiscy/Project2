@@ -147,7 +147,7 @@ $(function(){
             //    console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
 
             getCurrentLocNetworks(marker);
-            
+            populateSideTab();
 
             var content = "";
               for(var k=0; k<current_loc_networks.length; k++)
@@ -210,9 +210,11 @@ $(function(){
           animation: google.maps.Animation.DROP
         });
 
-      google.maps.event.addListener(marker, 'click', function() {
-        $('#content_box').removeClass("hidden");
-      });
+      google.maps.event.addListener(marker, 'click', (function(marker) {
+        return function() {
+          $('#content_box').removeClass("hidden");
+        }
+      })(marker));
     }
 
     function getCurrentLocNetworks(marker)
@@ -645,13 +647,43 @@ $(function(){
 <button id="add_net_btn">Add Location</button> -->
 
 <code id="jq1" class="html" style="overflow:auto">
-  <div id="extruderRight" class="{title:' List View '}">
+  <div id="extruderRight" class="{title:'List View'}">
     <div class="content">
       <div id="loc_net_list">
       </div>
     </div>
   </div>
 </code>
+
+<code id="jq1" class="html" style="overflow:auto">
+  <div id="extruderBottom" class="{title:'Chat'}">
+    <div class="content">
+      <div id="chat_window">
+        <table>
+          <tr id="current_user" class="chatline">
+            <td class="boldify">Nico says: </td>
+            <td>Hey Jake, how are you?</td>
+          </tr>
+          <tr id="other_user" class="chatline">
+            <td class="boldify">Jake says: </td>
+            <td>Good good, you?</td>
+          </tr>
+          <tr id="other_user" class="chatline">
+            <td class="boldify">Tom says: </td>
+            <td>Thanks for asking how I am guys!</td>
+          </tr>
+          <tr id="current_user" class="chatline">
+            <td class="boldify">Nico says: </td>
+            <td>Sorry Tom...</td>
+          </tr>
+        </table>
+        <input type="text" class="chat_input" placeholder="type message then press enter to send">
+      </div>
+    </div>
+  </div>
+  </code>
+
+
 
 
 
