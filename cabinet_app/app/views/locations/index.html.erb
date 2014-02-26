@@ -9,6 +9,8 @@
 <script>
 $(function(){ 
 
+  alert('reload');
+
     var locs = [];
     //var locations = [];
     var sorted_locs_by_distance = [];
@@ -73,10 +75,12 @@ $(function(){
     function setupMap(lat, lng)
     {
       var  myLocation =   new google.maps.LatLng(lat, lng);
+      cur_loc.lat = lat
+      cur_loc.lng = lng
 
       var mapOptions = {
           center: new google.maps.LatLng(myLocation.lat(),myLocation.lng()),
-          zoom: 14,
+          zoom: 11,
           streetViewControl: false,
           mapTypeControl: false,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -85,12 +89,7 @@ $(function(){
 
       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-      // infowindow = new google.maps.InfoWindow();
-
       geocoder = new google.maps.Geocoder();
-
-      //locs = get_locations();
-      console.log(locs);
 
       addCurrentLocMarker(map);
 
@@ -104,49 +103,28 @@ $(function(){
       
     }
 
-    //Adds a marker to the map
-    function addMarker(loc, map)
+    //Adds listeners/event handlers to marker
+    function addMarkerListeners(marker)
     {
-        marker = new google.maps.Marker({
-          position: new google.maps.LatLng(loc.lat, loc.lng),
-          map: map,
-          icon: 'http://www.nico-castro-files.com/saved_loc.svg',
-          //animation: google.maps.Animation.DROP
-        });
-        //console.log(marker.position);
-
-        //Display location name when hovering over a marker
-        // google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
-        //   return function() {
-        //     infowindow.setContent('<div id="content">'+
-        //       '<div id="siteNotice">'+
-        //       '</div>'+
-        //       '<h2>Name: '+ loc.name + '</h1>'+
-        //       '<h2>Location: ' + loc.address + '</h2>' +
-        //       '<h2>Password: ' + loc.pwd + '</h2>' +
-        //       '<div id="bodyContent">'+
-        //       '<p><a href=#>Edit</a> | <a href=# class="start_delete">Delete</a> | <a href=# class="start_share">Share</a></p>'+
-        //       '</div>'+
-        //       '</div>');
-        //     infowindow.open(map, marker);
-        //   }
-        // })(marker, i));
-
-        
-
-        // Set location variable to clicked marker
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+      google.maps.event.addListener(marker, 'click', (function(marker) {
           return function() {
             cur_loc.lat = marker.position.d;
             cur_loc.lng = marker.position.e;
 
             generate_list_by_distance(cur_loc);
 
-            //Just to check output
-            // for(var i in sorted_locs_by_distance)
-            //    console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
-
             getCurrentLocNetworks(marker);
+            if (current_loc_networks.length == 0)
+            {
+              google.maps.event.addListener(marker, 'click', (function(marker) {
+                return function() {
+                  reset_location(cur_loc);
+                  cur_loc.lat = marker.position.d;
+                  cur_loc.lng = marker.position.e; 
+                  $('#content_box').removeClass("hidden");
+                }
+              })(marker));
+            }
             populateSideTab();
 
             var content = "";
@@ -169,28 +147,39 @@ $(function(){
             google.maps.event.addListener(infowindow, 'domready', function() {
               $('.start_edit').click(function(e) {
                   var div = $(this).closest('div');
-                  console.log(div[0].id);
-                  editNetwork(div[0].id)
+                  var id = div[0].id;
+                  $('#edit_content_box').removeClass("hidden");
+                  editNetwork(id);
               });
 
               $('.start_delete').click(function(e) {
                   var div = $(this).closest('div');
-                  console.log(div[0].id);
-                  deleteNetwork(div[0].id)
+                  deleteNetwork(div[0].id);
               });
 
               $('.start_share').click(function(e) {
                   var div = $(this).closest('div');
-                  console.log(div[0].id);
-                  shareNetwork(div[0].id)
+                  shareNetwork(div[0].id);
               });
             });
           }
-        })(marker, i));
-
-        
+        })(marker));
     }
 
+    //Adds a marker to the map
+    function addMarker(loc, map)
+    {
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(loc.lat, loc.lng),
+          map: map,
+          icon: 'http://www.nico-castro-files.com/saved_loc.svg',
+          //animation: google.maps.Animation.DROP
+        });
+
+        addMarkerListeners(marker);
+    }
+
+    //Adds marker for current GPS location
     function addCurrentLocMarker(map)
     {
       marker = new google.maps.Marker({
@@ -199,8 +188,12 @@ $(function(){
           icon: 'http://www.nico-castro-files.com/current_loc.svg',
           animation: google.maps.Animation.DROP
         });
+
+      addMarkerListeners(marker);
+      
     }
 
+    //Adds markers and event handlers for search result marker
     function addNewLocMarker(loc, map)
     {
       marker = new google.maps.Marker({
@@ -212,11 +205,15 @@ $(function(){
 
       google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
+          reset_location(cur_loc);
+          cur_loc.lat = marker.position.d;
+          cur_loc.lng = marker.position.e; 
           $('#content_box').removeClass("hidden");
         }
       })(marker));
     }
 
+    //Finds all the networks presents in a radius of 10 meters from active location
     function getCurrentLocNetworks(marker)
     {
       current_loc_networks = [];
@@ -230,7 +227,7 @@ $(function(){
         else
           break;
       }
-      //console.log(current_loc_networks);
+
     }
 
     //AJAX call to add new network to DB
@@ -256,10 +253,7 @@ $(function(){
               locs.push(obj);
               $('#content_box').addClass("hidden");
               setupMap(data.lat, data.lng);
-              //setupMap(cur_loc.lat, cur_loc.lng);
-              //addMarker(data, map, infowindow);
               reset_fields();
-              //reset_location(loc);
             }
         });
     }
@@ -333,8 +327,6 @@ $(function(){
     $('#calculate').click(function()
     {
       generate_list_by_distance(cur_loc);
-      for(var i in sorted_locs_by_distance)
-         console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
     });
 
     $('#reset').click(function()
@@ -358,8 +350,6 @@ $(function(){
         current_location.address = $(".net_address").val();
 
         setupMap(current_location.lat, current_location.lng);
-        //addMarker(current_location, map, infowindow);
-        //getLocation();
     });
 
     //Refreshes the current location of the user
@@ -374,7 +364,6 @@ $(function(){
   // Search action: Moves map and adds marker to first result of search
 
   $('#search_btn').click( function(ev){
-    console.log("test");
     reset_location(cur_loc);
     var address = $(".search_field").val();
     geocoder.geocode( { 'address': address}, function(results, status) {
@@ -389,8 +378,6 @@ $(function(){
 
         //Generates list order by distance from search point of existing locations 
         generate_list_by_distance(cur_loc);
-        for(var i in sorted_locs_by_distance)
-           console.log(sorted_locs_by_distance[i].name + " " + sorted_locs_by_distance[i].distance);
 
         setupMap(cur_loc.lat, cur_loc.lng);
         addNewLocMarker(cur_loc, map);
@@ -452,6 +439,14 @@ $(function(){
       
     });
 
+    $('#cancel_add_btn').click(function(){
+      $('#content_box').addClass("hidden");
+    });
+
+    $('#cancel_edit_btn').click(function(){
+      $('#edit_content_box').addClass("hidden");
+    });
+
     function deleteNetwork(network_id)
     {
       $.ajax({
@@ -460,7 +455,6 @@ $(function(){
         beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
         data: { id: network_id },
         success: function(data){
-          console.log(data);
           locs = [];
           for(var i=0; i<data.length; i++)
           {
@@ -516,20 +510,22 @@ $(function(){
     //Popoulates the edit form fields
     function setEditFields(loc)
     {
-      $('.edit_name_field').val(loc.name);
-      $('.edit_address_field').val(loc.address);
-      $('.edit_password_field').val(loc.pwd);
+      $(".edit_net_nickname").val(loc.name);
+      $('.edit_net_address').val(loc.address);
+      $('.edit_net_pass').val(loc.pwd);
+      //$('#edit_content_box').removeClass("hidden");
     }
 
     function editNetworkAjax(name, address, pwd)
-    {
+    { 
+      //console.log(cur_loc.id);
+      var url = "/locations/" + cur_loc.id;
       $.ajax({
-          url: "/locations/" + cur_loc.id,
+          url: url,
           type: "PUT",
           beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
           data: { name: name, address: address, pwd: pwd, id: cur_loc.id },
           success: function(data){
-            console.log(data);
             locs = [];
             for(var i=0; i<data.length; i++)
             {
@@ -542,6 +538,7 @@ $(function(){
                     id: data[i].id
                   };
                 locs.push(obj);
+                $('#edit_content_box').addClass("hidden");
             }
             setupMap(cur_loc.lat, cur_loc.lng);
           }
@@ -549,14 +546,56 @@ $(function(){
     }
 
     //Event handler for click of edit button in edit form. AJAX request to update network and then sets up map
-    $("#edit_net_btn").click(function(){
+    $("#edit_net_btn").click(function(ev){
 
-      var name = $('.edit_name_field').val();
-      var address = $('.edit_address_field').val();
-      var pwd = $('.edit_password_field').val();
-      var l = "/locations/" + cur_loc.id;
+      cur_loc.name = $(".edit_net_nickname").val();
+        cur_loc.address = $(".edit_net_address").val();
+        
+        try
+        {
+          cur_loc.pwd = $(".edit_net_pass").val();
+          if (cur_loc.pwd == null || cur_loc.pwd == "")
+          {
+            var confirmation = confirm('Add network with no password?');
+            if (confirmation == true)
+            {
+              cur_loc.pwd = "";
+              if(cur_loc.name=="" || cur_loc.address=="")
+                alert ("Please fill both Name and Address");
+              else
+                editNetworkAjax(cur_loc.name, cur_loc.address, cur_loc.pwd);
+            }
+            else
+              cur_loc.pwd = null;
+          }
+          else if(cur_loc.name != "" && cur_loc.address != "")
+            editNetworkAjax(cur_loc.name, cur_loc.address, cur_loc.pwd);
+          else
+            alert('Please fill in all fields');
+        }
+        catch(err)
+        {
+          alert('catch');
+          var confirmation = confirm('Add network with no password?');
+          if (confirmation == true)
+          {
+            cur_loc.pwd = "";
+            if(cur_loc.name=="" || cur_loc.address=="")
+              alert ("Please fill in all fields");
+            else if(cur_loc.name != "" && cur_loc.address != "")
+              editNetworkAjax(cur_loc.name, cur_loc.address, cur_loc.pwd);
+            else
+              alert('Please fill in all fields');
+          }
+          else
+            cur_loc.pwd = null;
+        }
 
-      editNetworkAjax(name, address, pwd);
+      // cur_loc.name = $(".edit_net_nickname").val();
+      // cur_loc.address = $('.edit_net_address').val();
+      // cur_loc.pwd = $('.edit_net_pass').val();
+
+      // editNetworkAjax(cur_loc.name, cur_loc.address, cur_loc.pwd);
     });
   
 
@@ -616,16 +655,16 @@ $(function(){
   <div id="location" class="sixteen columns alpha omega">
     <div id="loc_form">
       <form>
-        <h2>Add Network at New Location</h2>
+        <h2>Network Information</h2>
         <table>
         <tr>
-          <td>Nickname:</td>
+          <td>Name:</td>
           <td><input type="text" class="net_nickname"></td>
         </tr>
-        <tr>
+<!--         <tr>
           <td>Network name:</td>
           <td><input type="text" class="net_realname"></td>
-        </tr>
+        </tr> -->
         <tr>
           <td>Street Address:</td>
           <td><input type="text" class="net_address"></td>
@@ -636,6 +675,38 @@ $(function(){
         </tr>
         </table>
         <button id="add_net_btn">Add Location</button>
+        <button id="cancel_add_btn">Cancel</button>
+      </form>
+    </div> <!-- closes #loc_form -->
+  </div> <!-- closes #location -->
+</div> <!-- closes #content_box -->
+
+<div id="edit_content_box" class="hidden">
+
+  <div id="location" class="sixteen columns alpha omega">
+    <div id="loc_form">
+      <form>
+        <h2>Network Information</h2>
+        <table>
+        <tr>
+          <td>Name:</td>
+          <td><input type="text" class="edit_net_nickname"></td>
+        </tr>
+<!--         <tr>
+          <td>Network name:</td>
+          <td><input type="text" class="edit_net_realname"></td>
+        </tr> -->
+        <tr>
+          <td>Street Address:</td>
+          <td><input type="text" class="edit_net_address"></td>
+        </tr>
+        <tr>
+          <td>Password:</td>
+          <td><input type="text" class="edit_net_pass"></td>
+        </tr>
+        </table>
+        <button id="edit_net_btn">Edit Location</button>
+        <button id="cancel_edit_btn">Cancel</button>
       </form>
     </div> <!-- closes #loc_form -->
   </div> <!-- closes #location -->
