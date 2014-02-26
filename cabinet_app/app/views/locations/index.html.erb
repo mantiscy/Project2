@@ -9,6 +9,8 @@
 <script>
 $(function(){ 
 
+  alert('reload');
+
     var locs = [];
     //var locations = [];
     var sorted_locs_by_distance = [];
@@ -437,6 +439,14 @@ $(function(){
       
     });
 
+    $('#cancel_add_btn').click(function(){
+      $('#content_box').addClass("hidden");
+    });
+
+    $('#cancel_edit_btn').click(function(){
+      $('#edit_content_box').addClass("hidden");
+    });
+
     function deleteNetwork(network_id)
     {
       $.ajax({
@@ -665,6 +675,7 @@ $(function(){
         </tr>
         </table>
         <button id="add_net_btn">Add Location</button>
+        <button id="cancel_add_btn">Cancel</button>
       </form>
     </div> <!-- closes #loc_form -->
   </div> <!-- closes #location -->
@@ -695,6 +706,7 @@ $(function(){
         </tr>
         </table>
         <button id="edit_net_btn">Edit Location</button>
+        <button id="cancel_edit_btn">Cancel</button>
       </form>
     </div> <!-- closes #loc_form -->
   </div> <!-- closes #location -->
