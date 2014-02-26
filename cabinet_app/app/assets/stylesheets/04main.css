@@ -48,7 +48,7 @@ margin-bottom: 15px;
   float: right;
   display: inline;
   margin-right: 25px;
-  margin-top: 15px;
+  margin-top: 5px;
   color: #f16c2e;
 }
 
@@ -179,7 +179,7 @@ You also need to include this conditional style in the <head> of your HTML file 
 /*LANDING PAGE STUFF*/
 
 
-#welcome_inner {
+#welcome_inner, #edit_inner {
   max-width: 520px;
   background-color: rgba(241, 108, 46, 0.92);
   margin: 20px auto;
@@ -198,7 +198,7 @@ h2 {
   margin-top: 10px;
 }
 
-#welcome_inner p {
+#welcome_inner p, #edit_inner p {
   margin: 0px;
   margin-bottom: 10px;
   color: white;
@@ -233,15 +233,6 @@ h2 {
   color: #1f8c8c;  
   text-align: left;
 }
-
-/*#signup_form table tr {
-  padding: 10px 0px;
-}*/
-
-/*#signup_form table {
-  max-width: 320px;
-  margin: 0 auto;
-}*/
 
 #signup_form table td {
   padding: 15px 20px 0px 0px;
@@ -281,6 +272,76 @@ h2 {
   display: inline;
   margin-top: 20px;
   margin-right: 0px;
+}
+
+#edit_user_form {
+  max-width: 520px;
+  background-color: rgba(255, 255, 255, 0.92);
+  margin: 0 auto;
+  padding: 0px 5px 20px 5px;
+}
+
+#edit_user_form p, #edit_user_form form {
+  padding: 20px;
+}
+
+#edit_user_form table {
+  border-collapse: collapse;
+}
+
+#edit_user_form tr {
+  border-bottom: 8px solid rgba(255, 255, 255, 0.92);
+}
+
+
+#edit_user_form p {
+  margin-top: 30px;
+  padding-bottom: 0px;
+  color: #1f8c8c;
+}
+
+#edit_user_form > form.button_to {
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+#edit_user_form > a {
+  display: inline;
+  float: right;
+  font-family: 'Arial', sans-serif;
+  font-size: 15px;
+  color: white;
+  background-color: #f16c2e;
+  border: none;
+  padding: 8px 5px 5px 5px;
+  margin-right: 20px;
+}
+
+#edit_user_form .update_user_btn{
+  display: inline;
+  float: left;
+  font-family: 'Arial', sans-serif;
+  font-size: 15px;
+  color: white;
+  background-color: #f16c2e;
+  border: none;
+  padding: 8px 5px 5px 5px;
+  margin-top: 15px;
+}
+
+#edit_user_form #delete_user_btn {
+  display: inline;
+  float: left;
+  font-family: 'Arial', sans-serif;
+  font-size: 15px;
+  color: white;
+  background-color: #f16c2e;
+  border: none;
+  padding: 8px 5px 5px 5px;
+}
+
+#edit_user_form table {
+  width: 100%;
 }
 
 
@@ -418,7 +479,7 @@ left: 78px;
   padding: 8px 5px 5px 5px;
   font-family: 'Arial', sans-serif;
   font-size: 14px;
-  width: 65%;
+  width: 80%;
   display: inline;
   float: left;
   margin-right: 10px;
@@ -432,7 +493,8 @@ left: 78px;
   color: white;
   background-color: #f16c2e;
   border: none;
-  padding: 8px 5px 5px 5px;
+  padding: 8px;
+  padding-top: 9px;
 }
 
 #loc_net_list table tr:first-child td {
