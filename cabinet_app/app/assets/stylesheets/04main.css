@@ -307,6 +307,7 @@ h2 {
   font-weight: 400;
   color: white;
   border: none;
+  font-size: 17px;
 }
 
 #extruderBottom > div > div.flap > span {
@@ -417,7 +418,21 @@ left: 78px;
   padding: 8px 5px 5px 5px;
   font-family: 'Arial', sans-serif;
   font-size: 14px;
-  width: 96%;
+  width: 65%;
+  display: inline;
+  float: left;
+  margin-right: 10px;
+}
+
+#chat_submit input{
+  display: inline;
+  float: right;
+  font-family: 'Arial', sans-serif;
+  font-size: 17px;
+  color: white;
+  background-color: #f16c2e;
+  border: none;
+  padding: 8px 5px 5px 5px;
 }
 
 #loc_net_list table tr:first-child td {
