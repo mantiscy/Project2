@@ -146,35 +146,17 @@ $(function(){
               $('.start_edit').click(function(e) {
                   var div = $(this).closest('div');
                   var id = div[0].id;
-                  //console.log(id);
                   $('#edit_content_box').removeClass("hidden");
                   editNetwork(id);
-                  // $.ajax({
-                  //   url: "/locations/" + div[0].id,
-                  //   beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-                  //   data: { id: id },
-                  //   success: function(data){
-                  //     cur_loc = data;
-                  //     console.log(cur_loc);
-                  //   }
-                  // });
-                  
-                  
-                  // $('.edit_name_field').val(loc.name);
-                  // $('.edit_address_field').val(loc.address);
-                  // $('.edit_password_field').val(loc.pwd);
-                  //$('#content_box').removeClass("hidden");
               });
 
               $('.start_delete').click(function(e) {
                   var div = $(this).closest('div');
-                  console.log(div[0].id);
                   deleteNetwork(div[0].id);
               });
 
               $('.start_share').click(function(e) {
                   var div = $(this).closest('div');
-                  console.log(div[0].id);
                   shareNetwork(div[0].id);
               });
             });
@@ -557,10 +539,53 @@ $(function(){
     $("#edit_net_btn").click(function(ev){
 
       cur_loc.name = $(".edit_net_nickname").val();
-      cur_loc.address = $('.edit_net_address').val();
-      cur_loc.pwd = $('.edit_net_pass').val();
+        cur_loc.address = $(".edit_net_address").val();
+        
+        try
+        {
+          cur_loc.pwd = $(".edit_net_pass").val();
+          if (cur_loc.pwd == null || cur_loc.pwd == "")
+          {
+            var confirmation = confirm('Add network with no password?');
+            if (confirmation == true)
+            {
+              cur_loc.pwd = "";
+              if(cur_loc.name=="" || cur_loc.address=="")
+                alert ("Please fill both Name and Address");
+              else
+                editNetworkAjax(cur_loc.name, cur_loc.address, cur_loc.pwd);
+            }
+            else
+              cur_loc.pwd = null;
+          }
+          else if(cur_loc.name != "" && cur_loc.address != "")
+            editNetworkAjax(cur_loc.name, cur_loc.address, cur_loc.pwd);
+          else
+            alert('Please fill in all fields');
+        }
+        catch(err)
+        {
+          alert('catch');
+          var confirmation = confirm('Add network with no password?');
+          if (confirmation == true)
+          {
+            cur_loc.pwd = "";
+            if(cur_loc.name=="" || cur_loc.address=="")
+              alert ("Please fill in all fields");
+            else if(cur_loc.name != "" && cur_loc.address != "")
+              editNetworkAjax(cur_loc.name, cur_loc.address, cur_loc.pwd);
+            else
+              alert('Please fill in all fields');
+          }
+          else
+            cur_loc.pwd = null;
+        }
 
-      editNetworkAjax(cur_loc.name, cur_loc.address, cur_loc.pwd);
+      // cur_loc.name = $(".edit_net_nickname").val();
+      // cur_loc.address = $('.edit_net_address').val();
+      // cur_loc.pwd = $('.edit_net_pass').val();
+
+      // editNetworkAjax(cur_loc.name, cur_loc.address, cur_loc.pwd);
     });
   
 
@@ -623,7 +648,7 @@ $(function(){
         <h2>Network Information</h2>
         <table>
         <tr>
-          <td>Nickname:</td>
+          <td>Name:</td>
           <td><input type="text" class="net_nickname"></td>
         </tr>
 <!--         <tr>
@@ -653,7 +678,7 @@ $(function(){
         <h2>Network Information</h2>
         <table>
         <tr>
-          <td>Nickname:</td>
+          <td>Name:</td>
           <td><input type="text" class="edit_net_nickname"></td>
         </tr>
 <!--         <tr>
