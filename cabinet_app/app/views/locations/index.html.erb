@@ -23,19 +23,19 @@ $(function(){
     var current_location = {};
     var cur_loc = {};
 
-    <% @locations.each do |loc| %>
-        var obj = {
-          name: "<%= loc.name %>",
-          lat: <%= loc.lat %>,
-          lng: <%= loc.lng %>,
-          pwd: "<%= loc.pwd %>",
-          address: "<%= loc.address %>",
-          distance: 0,
-          markerPlaced: false,
-          id: <%= loc.id %>
-        };
-      locs.push(obj);
-    <% end %>
+    // <% @locations.each do |loc| %>
+    //     var obj = {
+    //       name: "<%= loc.name %>",
+    //       lat: <%= loc.lat %>,
+    //       lng: <%= loc.lng %>,
+    //       pwd: "<%= loc.pwd %>",
+    //       address: "<%= loc.address %>",
+    //       distance: 0,
+    //       markerPlaced: false,
+    //       id: <%= loc.id %>
+    //     };
+    //   locs.push(obj);
+    // <% end %>
 
     //console.log(locs);
 
@@ -44,6 +44,8 @@ $(function(){
     //Gets current location coordinates  
     function getLocation()
     {
+      getUserLocations();
+
       if (navigator.geolocation)
       {
           var options = {
@@ -63,6 +65,7 @@ $(function(){
 
     // If current location request was successful, initializes location
     function success(position) {
+      reset_location(cur_loc);
       cur_loc.lat  = position.coords.latitude;
       cur_loc.lng =  position.coords.longitude;
       current_location.lat  = position.coords.latitude;
@@ -252,9 +255,34 @@ $(function(){
               };
               locs.push(obj);
               $('#content_box').addClass("hidden");
-              setupMap(data.lat, data.lng);
               reset_fields();
+              setupMap(data.lat, data.lng);
+              console.log('add_loc_to_db completed');
             }
+        });
+    }
+
+    function getUserLocations()
+    {
+      $.ajax({
+            url: "/locations",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            success: function(data){
+
+              locs = [];
+              for(var i=0; i<data.length; i++)
+              {
+                var obj = {
+                    name: data[i].name,
+                    lat: data[i].lat,
+                    lng: data[i].lng,
+                    pwd: data[i].pwd,
+                    address: data[i].address,
+                    id: data[i].id,
+                };
+                locs.push(obj);
+              }
+          }
         });
     }
 
