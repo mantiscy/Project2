@@ -89,6 +89,7 @@ class LocationsController < ApplicationController
       loc.users << user
       #@location.save
       @locations = current_user.locations
+      UserMailer.share_location(user.first, loc).deliver
       respond_to do |format|
         if request.xhr?
           format.json { render json: @locations }
