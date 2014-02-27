@@ -50,24 +50,31 @@ margin-bottom: 15px;
   margin-right: 25px;
   margin-top: 5px;
   color: #f16c2e;
+  text-align: right;
 }
 
-#up-right a {
-  color: #f16c2e;
+#up-right p a:visited {
+  color: #666;
+}
+
+#up-right p a:hover {
+  color: #000;
+}
+
+#signup_corner_btn {
+  text-align: center;
+  color: white;
+  padding: 10px;
+  background-color: #f16c2e;
+  border: none;
+  font-weight: 300;
+  margin-top: 20px;
   margin-right: 10px;
-  /*margin-left: 10px;*/
+  font-family: 'Alegreya Sans', sans-serif;
+  font-size: 17px;
 }
-
-/*#up-right a:first-child {
-  margin-left: 0px;
-}
-
-#up-right a:last-child {
-  margin-right: 0px;
-}*/
 
 #header {
-  /*background-color: white;*/
   background: url("http://i.imgur.com/nlaNQOK.png");
   background-repeat: repeat;
   height: 90px;
@@ -97,19 +104,6 @@ and your footer gets pushed down a bit more, creating vertical scroll bars in th
 html, body {height: 100%;}
 
 #wrap {min-height: 100%;}
-
-/*#main {
-  overflow:auto;*/
-/*  min-height: 100%;*/
-/*  min-height: 400px;
-  max-height: 600px;
-  padding-bottom: 40px;
-}  */
-
-/*#map-canvas {
-  width: 100%;
-  height: inherit;
-}*/
 
 #main {overflow:auto;
   padding-bottom: 40px;}
@@ -248,7 +242,7 @@ h2 {
 
 #signup_submit {
   color: #b3fff1;
-  padding: 8px;
+  padding: 10px;
   background-color: #1f8c8c;
   /*background-color: #1f8c8c;*/
   /*border: solid 1px #1f8c8c;*/
@@ -260,6 +254,20 @@ h2 {
   float: left;
 }
 
+#go_register {
+  display: inline;
+  float: right;
+}
+
+#go_register p {
+  margin-right: 0px;
+  padding-right: 10px;
+}
+
+#go_register a:hover, #go_register a:visited {
+  color: #000;
+}
+
 #map-canvas {
   width: 100%;
   min-height: 500px;
@@ -268,7 +276,7 @@ h2 {
 
 #fb_btn img:last-child {
   float: left;
-  height: 36px;
+  height: 37px;
   display: inline;
   margin-top: 20px;
   margin-right: 0px;
@@ -410,6 +418,7 @@ left: 78px;
 .extruder .text {
   font-family: 'Alegreya Sans', sans-serif;
   background: #1f8c8c;
+  border-bottom: none;
 }
 
 #current_user {
@@ -437,6 +446,11 @@ left: 78px;
 }
 
 .boldify {
+  font-weight: 400;
+  color: #1f8c8c;
+}
+
+.boldify a:hover, .boldify a:visited {
   font-weight: 400;
   color: #1f8c8c;
 }
@@ -505,16 +519,11 @@ left: 78px;
   width: 30%;
 }
 
-/*#map-canvas {
-  margin-bottom: -480px;
-}*/
-
 #search-stuff {
   position: absolute;
   left: 90px; 
   top: 120px;
 }
-
 
 #search_btn {
   margin-left: 10px; 
@@ -534,12 +543,11 @@ left: 78px;
 }
 
 #list_search_field {
-  padding: 15px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  width: 85%;
+  padding: 8px;
+  margin: 10px;
   font-family: 'Arial', sans-serif;
-  font-size: 17px;
-  /*width: 62%;*/
+  font-size: 15px;
 }
 
 #content_box {
@@ -617,6 +625,124 @@ left: 78px;
 
 
 
+/*------------------------------------*/
+/*------------------------------------*/
+/*GOOGLE MAPS INFO WINDOW STUFF*/
+
+
+#info_window{
+  width: 350px;
+  padding-bottom: 10px;
+}
+
+.gm-style .gm-style-iw, .gm-style .gm-style-iw a, .gm-style .gm-style-iw span, .gm-style .gm-style-iw label, .gm-style .gm-style-iw div {
+  max-height: 310px;
+  padding: 0px 10px 5px 5px;
+  overflow-y: scroll;
+  overflow-x: visible;
+}
+
+.gm-style-iw div {
+  overflow:visible !important;
+}
+
+#info_window > p > a.show_add_network_form {
+  color: white;
+  padding: 8px;
+  padding-top: 9px;
+  background-color: #f16c2e;
+  border: none;
+  font-weight: 300;
+}
+
+#add_net_p {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+#info_window p a:hover, #info_window p a:visited{
+  color: #000;
+}
+
+#info_window > p > a.show_add_network_form:hover {
+  color: white;
+}
+
+#info_window > p > a.show_add_network_form:visited {
+  color: white;
+}
+
+#info_col1 p {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  line-height: 1.8em;
+}
+
+#info_col1 {
+  display: inline;
+  float: left;
+}
+
+#info_col2 p {
+  display: inline;
+  float: left;
+  clear: right;
+  line-height: 1.8em;
+}
+
+#info_col2 {
+  float: left;
+  clear: right;
+}
+
+#info_buttons {
+  display: block;
+  clear: both;
+  width: 100%;
+}
+
+#info_buttons p a {
+  color: #b3fff1;
+  background-color: #1f8c8c;
+  padding: 8px;
+  padding-top: 9px;
+  border: none;
+  font-weight: 300;
+  margin-left: 10px;
+}
+
+#info_buttons p a:first-child {
+  margin-left: 0px;
+}
+
+#info_buttons p a:hover, #info_buttons p a:visited {
+  color: #b3fff1;
+}
+
+#infoWindow_sharingStuff {
+  width: 100%;
+  padding-top: 10px;
+}
+
+.share_email_field {
+  width: 72%;
+  padding: 8px;
+  font-size: 14px;
+}
+
+hr {
+  border: 1px dashed #f16c2e;
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -631,6 +757,7 @@ left: 78px;
 /*------------------------------------*/
 /*MEDIA QUERIES STUFF*/
 
+/*MOBILE- BOTH*/
 @media only screen and (max-width: 767px) {
   input {
     width: 100%;
@@ -650,8 +777,63 @@ left: 78px;
     text-align: center;
     margin-bottom: 20px;
   }
-/*  #map-canvas {
+
+}
+
+
+/*MOBILE- PORTRAIT*/
+@media only screen and (max-width: 479px) {
+  #up-right {
+  max-width: 320px;
+  margin: 0 auto;
+  display: block;
+  margin-top: 5px;
+  color: #f16c2e;
+  text-align: center;
+  clear: both;
+  }
+}
+
+/*MOBILE- LANDSCAPE*/
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  #up-right {
+  float: right;
+  display: inline;
+  margin-right: 25px;
+  margin-top: 5px;
+  color: #f16c2e;
+  text-align: right;
+  }
+  #map-canvas {
   width: 100%;
   min-height: 400px;
-  }*/
+  }
+  #search-stuff {
+  position: absolute;
+  left: 90px; 
+  top: 120px;
+  }
+  #search_btn {
+    margin-left: 10px; 
+    font-family: 'Arial', sans-serif;
+    font-size: 17px;
+    color: white;
+    background-color: #f16c2e;
+    border: none;
+    padding: 10px 8px 8px 8px;
+  }
+  .search_field {
+    padding: 10px 8px 8px 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 17px;
+    width: 62%;
+  }
+
 }
+
+
+
+
+
+
+
