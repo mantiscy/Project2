@@ -11,6 +11,14 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :locations
   has_many :chatlines
 
+  after_create :send_welcome_email 
+
+  private
+
+    def send_welcome_email
+      UserMailer.registration_confirmation(self).deliver
+    end 
+
   def self.find_for_facebook_oauth(auth)
     puts auth
     where(auth.slice(:provider, :uid)).first_or_create do |user|
