@@ -222,9 +222,11 @@
   -moz-box-shadow:-2px 0 5px #999;
   -webkit-box-shadow:-2px 0 5px #999;
   box-shadow:-2px 0 5px #999;
+  height: 96px;
 }
 .extruder.right .flap .flapLabel{
   background:#1f8c8c;
+  height: 96px;
 }
 .extruder .voice{
   color:white;
