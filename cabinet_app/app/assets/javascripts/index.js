@@ -22,15 +22,29 @@ $(function(){
                 onExtClose:function(){}
             });
 
-            $("#extruderBottom").buildMbExtruder({
-                position:"bottom",
-                width:480,
-                overflow:"scroll",
-                extruderOpacity:1,
-                onExtOpen:function(){},
-                onExtContentLoad:function(){},
-                onExtClose:function(){}
-            });
+            if ((parseInt($('#header').css('width'))) <= 479) {
+                $("#extruderBottom").buildMbExtruder({
+                    position:"bottom",
+                    width:300,
+                    overflow:"scroll",
+                    extruderOpacity:1,
+                    onExtOpen:function(){},
+                    onExtContentLoad:function(){},
+                    onExtClose:function(){}
+                });
+            } else {
+                $("#extruderBottom").buildMbExtruder({
+                    position:"bottom",
+                    width:480,
+                    overflow:"scroll",
+                    extruderOpacity:1,
+                    onExtOpen:function(){},
+                    onExtContentLoad:function(){},
+                    onExtClose:function(){}
+                });
+            }
+
+           
 
             $("#extruderLeft").buildMbExtruder({
                 position:"left",

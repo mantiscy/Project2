@@ -10,7 +10,7 @@
         Cabinet allows you to safely store the name and password of the different wifi networks you've accessed. It's like having easy access to your own list of trusted personal hotspots. You can also share network info with friends.
       </p>
       <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :id => "signup_form" }) do |f| %>
-        <h2>Sign In</h2>
+        <h2>Log In</h2>
         <table>
         <tr>
           <td><%= f.label :email %></td>
@@ -21,8 +21,11 @@
           <td><%= f.password_field :password %></td>
         </tr>
         </table>
-        <%= f.submit "submit", :id => "signup_submit" %>
+        <%= f.submit "SUBMIT", :id => "signup_submit" %>
         <%= render "devise/shared/links" %>
+        <div id="go_register">
+          <p>First time here? <a href="../registrations/new.html.erb" class="boldify">SIGN UP!</a></p> 
+        </div>
         <% end %>
     
     </div>

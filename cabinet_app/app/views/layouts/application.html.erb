@@ -30,18 +30,14 @@
 
     <div id="up-right">
       <p>
-        <!-- <a href="#" class="login_btn">LOG IN</a> -->
         <% if current_user %>
         Hello <%= current_user.email %><br>
         <%= link_to "Log out", destroy_user_session_path, method: :delete %><br>
         <%= link_to "Edit Profile", edit_user_registration_path %>
       <% else %>
-        <%= link_to "Sign In", new_user_session_path %>
-        <%= link_to "Register", new_user_registration_path %>
+        <%= link_to "SIGN UP", new_user_registration_path, :id => "signup_corner_btn" %>
       <% end %>
       </p>
-      <!-- <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p> -->
     </div> <!-- closes #up-right -->
   </div> <!-- closes #header -->
 
