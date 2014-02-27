@@ -5,7 +5,7 @@
 
  <!--  STYLES: -->
 
-  
+
   <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:300,400,500' rel='stylesheet' type='text/css'>
 
   <%= stylesheet_link_tag "application", :media => "all" %>
@@ -17,7 +17,7 @@
 
 
   <%= javascript_include_tag "application" %>
-  
+
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -40,7 +40,7 @@
       </p>
     </div> <!-- closes #up-right -->
   </div> <!-- closes #header -->
-  
+
 
     <%= yield %>
 
@@ -49,7 +49,8 @@
 
 <div id="footer">
   <p>
-    <%= link_to 'About', page_path('about') %> | <%= link_to 'Press', page_path('press') %> | <%= link_to 'Legal', page_path('legal') %>
+    <%= link_to 'About', page_path('about') %> | <%= link_to 'Press', page_path('press') %> | <%= link_to 'Legal', page_path('legal') %></a>
+
   </p>
 </div>
 

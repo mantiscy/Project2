@@ -3,6 +3,9 @@ class LocationsController < ApplicationController
   before_filter :authenticate_user!
   # GET /locations
   # GET /locations.json
+
+
+
   def index
     #@locations = Location.all
 
@@ -10,7 +13,7 @@ class LocationsController < ApplicationController
     @chatline = Chatline.new
 
     respond_to do |format|
-      
+
       if request.xhr?
         format.json { render json: @locations }
         #format.html
@@ -43,7 +46,7 @@ class LocationsController < ApplicationController
   def landing
 
     respond_to do |format|
-      format.html 
+      format.html
     end
   end
 
@@ -73,7 +76,7 @@ class LocationsController < ApplicationController
 
   # GET /locations/1/share
   def share
-    
+
     user = User.where("email = ?", params[:email])
 
     if user != []
@@ -83,12 +86,13 @@ class LocationsController < ApplicationController
       loc.lng = @location.lng
       loc.name = @location.name
       loc.address = @location.address
-      loc.pwd = @location.pwd 
-      
+      loc.pwd = @location.pwd
+
       loc.save
       loc.users << user
       #@location.save
       @locations = current_user.locations
+      puts "<<<<<<<<<<<<<<<< #{user.first.email}"
       UserMailer.share_location(user.first, loc).deliver
       respond_to do |format|
         if request.xhr?
@@ -111,7 +115,7 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.json
   def create
-    
+
     if request.xhr?
       @location = Location.new
       @location.lat = params['lat'].to_f
@@ -124,7 +128,7 @@ class LocationsController < ApplicationController
       @location = Location.new(params[:location])
       @location.users << current_user
     end
-    
+
     respond_to do |format|
       if @location.save
 
@@ -144,7 +148,7 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.json
   def update
-    
+
     @location = Location.find(params[:id])
 
     if request.xhr?
