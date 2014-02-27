@@ -5,7 +5,7 @@
 
  <!--  STYLES: -->
 
-  
+
   <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:300,400,500' rel='stylesheet' type='text/css'>
 
   <%= stylesheet_link_tag "application", :media => "all" %>
@@ -17,15 +17,16 @@
 
 
   <%= javascript_include_tag "application" %>
-  
+
   <%= csrf_meta_tags %>
 </head>
 <body>
 <div id="wrap">
   <div id="header">
     <div id="up-left">
-      <h1><a>cabinet</a></h1>
-    </div> <!-- closes #up-left -->
+      <h1><%= link_to('/') do %></h1>
+      <% end %>
+      </div> <!-- closes #up-left -->
 
     <div id="up-right">
       <p>
@@ -43,7 +44,7 @@
       <p class="alert"><%= alert %></p> -->
     </div> <!-- closes #up-right -->
   </div> <!-- closes #header -->
-  
+
 
     <%= yield %>
 
@@ -52,7 +53,7 @@
 
 <div id="footer">
   <p>
-    <a href="#">About us</a> | <a href="#">Press</a> | <a href="#">Legal</a>
+    <%= link_to 'About', page_path('about') %> | <%= link_to 'Press', page_path('press') %> | <%= link_to 'Legal', page_path('legal') %></a>
   </p>
 </div>
 
