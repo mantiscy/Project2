@@ -73,24 +73,36 @@ class LocationsController < ApplicationController
 
   # GET /locations/1/share
   def share
-
-    @location = Location.find(params[:id])
-    loc = Location.new
-    loc.lat = @location.lat
-    loc.lng = @location.lng
-    loc.name = @location.name
-    loc.address = @location.address
-    loc.pwd = @location.pwd 
+    
     user = User.where("email = ?", params[:email])
-    loc.save
-    loc.users << user
-    #@location.save
-    @locations = current_user.locations
-    respond_to do |format|
-      if request.xhr?
-        format.json { render json: @locations }
-      else
-        format.html { redirect_to locations_url }
+
+    if user != []
+      @location = Location.find(params[:id])
+      loc = Location.new
+      loc.lat = @location.lat
+      loc.lng = @location.lng
+      loc.name = @location.name
+      loc.address = @location.address
+      loc.pwd = @location.pwd 
+      
+      loc.save
+      loc.users << user
+      #@location.save
+      @locations = current_user.locations
+      respond_to do |format|
+        if request.xhr?
+          format.json { render json: @locations }
+        else
+          format.html { redirect_to locations_url }
+        end
+      end
+    else
+      respond_to do |format|
+        if request.xhr?
+          format.json { render json: user}
+        else
+          format.html { redirect_to locations_url }
+        end
       end
     end
   end
