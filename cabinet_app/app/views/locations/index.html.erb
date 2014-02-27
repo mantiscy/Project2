@@ -56,7 +56,7 @@ $(function(){
       {
           var options = {
               enableHighAccuracy: true,
-              timeout: 5000,
+              timeout: 10000,
               maximumAge: 0
           };
           navigator.geolocation.getCurrentPosition( success, error,options);
@@ -141,9 +141,9 @@ $(function(){
               {
                 content += '<hr><div id=' + current_loc_networks[k].id + '>' +
                 "<div id='info_col1' class='boldify'><p>Name: <br>Location: <br>Password: <br></p></div><div id='info_col2'><p>" + current_loc_networks[k].name + "<br>" + current_loc_networks[k].address + "<br>" + current_loc_networks[k].pwd + "<br></p></div>" +
-                "<div id='info_buttons'><p><a href=# class='start_edit'>Edit</a><a href=# class='start_delete'>Delete</a></p>" + 
+                "<section id='info_buttons'><p><a href=# class='start_edit'>Edit</a><a href=# class='start_delete'>Delete</a></p>" + 
                 "<p id='infoWindow_sharingStuff'><input type='text' class='share_email_field' placeholder='enter friend&#39s email'> " + 
-                "<a href=# class='start_share'>Share</a></p></div></div></div>";
+                "<a href=# class='start_share'>Share</a></section></div></div></div>";
 
               }
 

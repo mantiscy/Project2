@@ -53,11 +53,11 @@ margin-bottom: 15px;
   text-align: right;
 }
 
-#up-right p a:visited {
+#up-right a:visited {
   color: #666;
 }
 
-#up-right p a:hover {
+#up-right a:hover {
   color: #000;
 }
 
@@ -72,6 +72,10 @@ margin-bottom: 15px;
   margin-right: 10px;
   font-family: 'Alegreya Sans', sans-serif;
   font-size: 17px;
+}
+
+a:visited#signup_corner_btn, a:hover#signup_corner_btn {
+  color: white;
 }
 
 #header {
@@ -270,7 +274,7 @@ h2 {
 
 #map-canvas {
   width: 100%;
-  min-height: 500px;
+  min-height: 550px;
 }
 
 
@@ -509,6 +513,7 @@ left: 78px;
   border: none;
   padding: 8px;
   padding-top: 9px;
+  width: 14%;
 }
 
 #loc_net_list table tr:first-child td {
@@ -520,11 +525,11 @@ left: 78px;
 }
 
 #search-stuff {
-  position: absolute;
-  left: 90px; 
-  top: 120px;
+    position: absolute;
+    left: 90px; 
+    top: 110px;
+    width: 100%;
 }
-
 #search_btn {
   margin-left: 10px; 
   font-family: 'Arial', sans-serif;
@@ -532,14 +537,18 @@ left: 78px;
   color: white;
   background-color: #f16c2e;
   border: none;
-  padding: 10px 8px 8px 8px;
+  padding: 11px 8px 10px 8px;
+  display: inline;
+  float: left;
+  width: 70px;
 }
-
 .search_field {
   padding: 10px 8px 8px 8px;
   font-family: 'Arial', sans-serif;
   font-size: 17px;
-  width: 62%;
+  width: 30%;
+  display: inline;
+  float: left;
 }
 
 #list_search_field {
@@ -777,41 +786,108 @@ hr {
     text-align: center;
     margin-bottom: 20px;
   }
-
+  #welcome_form {
+    padding-bottom: 125px;
+    margin-bottom: 20px;
+  }
+  #chat_window {
+    max-height: 300px;
+  }
 }
 
 
 /*MOBILE- PORTRAIT*/
 @media only screen and (max-width: 479px) {
+  #header {
+    height: 200px;
+  }
   #up-right {
-  max-width: 320px;
-  margin: 0 auto;
-  display: block;
-  margin-top: 5px;
-  color: #f16c2e;
-  text-align: center;
-  clear: both;
+    max-width: 350px;
+    margin: 0 auto;
+    display: block;
+    margin-top: 5px;
+    color: #f16c2e;
+    text-align: center;
+    float: none;
+    clear: both;
+  }
+  #up-right p {
+    line-height: 2.6em;
+  }
+  #signup_corner_btn {
+    display: block;
+    padding: 7px 50px;
+  }
+  #up-left {
+    max-width: 250px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    float: none;
+  }
+  #welcome_form {
+    padding-bottom: 0px;
+    margin-bottom: 20px;
+  }
+  h1, h1 a {
+    text-align: center;
+  }
+  h1 a {
+    padding-bottom: 5px;
+  }
+
+  #fb_btn img:last-child {
+    max-width: 175px;
+    margin-left: 16%;
+  }
+  #go_register {
+    display: block;
+    clear: both;
+    float: none;
+    text-align: center;
+    }
+
+  #search-stuff {
+    position: absolute;
+    left: 23%; 
+    right: 20%;
+    top: 220px;
+    width: 100%;
+  }
+  .search_field {
+    width: 40%;
+  }
+  #chat_enter_text .chat_input{
+    width: 71%;
+  }
+  #chat_submit input{
+    width: 20%;
+  }
+  #map-canvas {
+    width: 100%;
+    min-height: 350px;
   }
 }
 
 /*MOBILE- LANDSCAPE*/
 @media only screen and (min-width: 480px) and (max-width: 767px) {
   #up-right {
-  float: right;
-  display: inline;
-  margin-right: 25px;
-  margin-top: 5px;
-  color: #f16c2e;
-  text-align: right;
+    float: right;
+    display: inline;
+    margin-right: 25px;
+    margin-top: 5px;
+    color: #f16c2e;
+    text-align: right;
   }
   #map-canvas {
-  width: 100%;
-  min-height: 400px;
+    width: 100%;
+    min-height: 450px;
   }
   #search-stuff {
-  position: absolute;
-  left: 90px; 
-  top: 120px;
+    position: absolute;
+    left: 90px; 
+    top: 110px;
+    width: 100%;
   }
   #search_btn {
     margin-left: 10px; 
@@ -820,13 +896,18 @@ hr {
     color: white;
     background-color: #f16c2e;
     border: none;
-    padding: 10px 8px 8px 8px;
+    padding: 11px 8px 10px 8px;
+    display: inline;
+    float: left;
+    width: 70px;
   }
   .search_field {
     padding: 10px 8px 8px 8px;
     font-family: 'Arial', sans-serif;
     font-size: 17px;
-    width: 62%;
+    width: 40%;
+    display: inline;
+    float: left;
   }
 
 }
