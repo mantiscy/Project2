@@ -373,6 +373,7 @@ h2 {
   font-weight: 300;
   color: white;
   border-right: none;
+  height: 96px;
 }
 
 .extruder.bottom .flap .flapLabel {
@@ -391,7 +392,21 @@ left: 78px;
 
 .extruder.right .flap{
   font-family: 'Alegreya Sans', sans-serif;
+  height: 76px;
 }
+
+.extruder.right .flap span {
+  font-family: 'Alegreya Sans', sans-serif;
+  height: 100%;
+}
+
+#extruderRight > div > div.flap > span > object {
+  font-family: 'Alegreya Sans', sans-serif;
+  font-weight: 400px;
+  height: 72px;
+  font-size: 17px;
+}
+
 
 .extruder.bottom .flap{
   font-family: 'Alegreya Sans', sans-serif;
@@ -407,6 +422,10 @@ left: 78px;
 
 #extruderRight .content {
   overflow: scroll;
+}
+
+#extruderRight > div > div.flap > div {
+  height: 96px;
 }
 
 #loc_net_list {
