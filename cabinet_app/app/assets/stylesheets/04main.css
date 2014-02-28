@@ -373,6 +373,7 @@ h2 {
   font-weight: 300;
   color: white;
   border-right: none;
+  height: 96px;
 }
 
 .extruder.bottom .flap .flapLabel {
@@ -391,7 +392,21 @@ left: 78px;
 
 .extruder.right .flap{
   font-family: 'Alegreya Sans', sans-serif;
+  height: 76px;
 }
+
+.extruder.right .flap span {
+  font-family: 'Alegreya Sans', sans-serif;
+  height: 100%;
+}
+
+#extruderRight > div > div.flap > span > object {
+  font-family: 'Alegreya Sans', sans-serif;
+  font-weight: 400px;
+  height: 72px;
+  font-size: 17px;
+}
+
 
 .extruder.bottom .flap{
   font-family: 'Alegreya Sans', sans-serif;
@@ -407,6 +422,10 @@ left: 78px;
 
 #extruderRight .content {
   overflow: scroll;
+}
+
+#extruderRight > div > div.flap > div {
+  height: 96px;
 }
 
 #loc_net_list {
@@ -438,15 +457,15 @@ left: 78px;
 }
 
 #edit_net_btn, #delete_net_btn, #share_net_btn, #cancel_add_btn, #cancel_edit_btn, #edit_from_list_btn, #delete_from_list_btn {
-  /*color: #b3fff1;*/
   color: white;
   padding: 8px;
-  /*background-color: #1f8c8c;*/
   background-color: #f16c2e;
   border: none;
   font-weight: 300;
   margin-top: 20px;
   margin-right: 10px;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-size: 15px;
 }
 
 .boldify {
@@ -523,6 +542,27 @@ left: 78px;
 #loc_net_list table td:first-child {
   width: 30%;
 }
+
+.fromlist_share_email_field{
+  width: 65%;
+  padding: 8px;
+  display: inline;
+}
+
+#fromlist_sharingStuff .start_share {
+  text-align: center;
+  color: white;
+  padding: 8px;
+  background-color: #f16c2e;
+  border: none;
+  font-weight: 300;
+  float: right;
+  display: inline;
+  font-weight: 300;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-size: 15px;
+}
+
 
 #search-stuff {
     position: absolute;
