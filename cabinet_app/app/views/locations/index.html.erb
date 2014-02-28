@@ -18,6 +18,7 @@ $(function(){
     var cur_lng;
     var map;
     var infowindow;
+    var infowindowStart;
     var geocoder;
     var current_location = {};
     var cur_loc = {};
@@ -109,6 +110,15 @@ $(function(){
       
       generate_list_by_distance(cur_loc);
       populateSideTab(sorted_locs_by_distance);
+
+      if(locs.length == 0)
+      {
+        var infowindow = new google.maps.InfoWindow({
+              maxWidth: 420,
+          });
+
+
+      }
       
     }
 
@@ -119,12 +129,13 @@ $(function(){
           return function() {
             cur_loc.lat = marker.position.d;
             cur_loc.lng = marker.position.e;
-
+infowindowStart.close();
             generate_list_by_distance(cur_loc);
 
             getCurrentLocNetworks(marker);
             if (current_loc_networks.length == 0)
             {
+
               google.maps.event.addListener(marker, 'click', (function(marker) {
                 return function() {
                   reset_location(cur_loc);
@@ -203,6 +214,16 @@ $(function(){
           icon: 'http://www.nico-castro-files.com/current_loc.svg',
           animation: google.maps.Animation.DROP
         });
+
+      if(locs.length == 0)
+      {
+        infowindowStart = new google.maps.InfoWindow({
+            maxWidth: 420,
+        });
+
+        infowindowStart.setContent("Welcome to Cabinet! Click on the blue marker to add your first network");
+        infowindowStart.open(map, marker);
+      }
 
       addMarkerListeners(marker);
       
