@@ -129,7 +129,7 @@ $(function(){
           return function() {
             cur_loc.lat = marker.position.d;
             cur_loc.lng = marker.position.e;
-infowindowStart.close();
+
             generate_list_by_distance(cur_loc);
 
             getCurrentLocNetworks(marker);
@@ -165,6 +165,7 @@ infowindowStart.close();
 
             infowindow.setContent(content);
             infowindow.open(map, marker);
+            //infowindowStart.close();
             google.maps.event.addListener(infowindow, 'domready', function() {
               $('.start_edit').click(function(e) {
                   var div = $(this).closest('div');
