@@ -773,14 +773,14 @@ $(function(){
                   if(data[i].email == user.email)
                   {
                     $('#display_chatlines').append( '<tr id="current_user" class="chatline">' +
-                                            '<td class="boldify">' + data[i].email + ': </td>' +
-                                            '<td>' + data[i].message + '</td></tr>' );
+                                            '<td class="boldify" id="chatcolumn1">' + data[i].email + ': </td>' +
+                                            '<td id="chatcolumn2">' + data[i].message + '</td></tr>' );
                   }
                   else
                   {
                     $('#display_chatlines').append( '<tr id="other_user" class="chatline">' +
-                                            '<td class="boldify">' + data[i].email + ': </td>' +
-                                            '<td>' + data[i].message + '</td></tr>' );
+                                            '<td class="boldify" id="chatcolumn1">' + data[i].email + ': </td>' +
+                                            '<td id="chatcolumn2">' + data[i].message + '</td></tr>' );
                   }
 
                 }
