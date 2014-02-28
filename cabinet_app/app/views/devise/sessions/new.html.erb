@@ -24,8 +24,8 @@
         </table>
         <%= f.submit "SUBMIT", :id => "signup_submit" %>
         <%= render "devise/shared/links" %>
-        <div id="go_register">
-          <p>First time here? <a href="../registrations/new.html.erb" class="boldify">SIGN UP!</a></p> 
+        <div id="go_register">  
+          <p>First time here? <%= link_to "SIGN UP", new_user_registration_path %></p>
         </div>
         <% end %>
     

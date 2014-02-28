@@ -30,6 +30,9 @@
         </table>
         <%= f.submit "Sign Up", :id => "signup_submit" %>
         <%= render "devise/shared/links" %>
+        <div id="go_register">  
+          <p>Already a user? <%= link_to "LOG IN", new_user_session_path %></p>
+        </div>
       <% end %>
     
     </div>

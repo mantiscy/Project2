@@ -268,8 +268,10 @@ h2 {
   padding-right: 10px;
 }
 
-#go_register a:hover, #go_register a:visited {
-  color: #000;
+
+#go_register a, #go_register a:hover, #go_register a:visited {
+  font-weight: 400;
+  color: #1f8c8c;
 }
 
 #map-canvas {
