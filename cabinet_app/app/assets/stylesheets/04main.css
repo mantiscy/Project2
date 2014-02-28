@@ -631,6 +631,20 @@ left: 78px;
   margin-top: 20px;
 }
 
+#loader {
+  position: absolute;
+  top: 40%;
+  left: 46%;
+  width: 100px;
+  height: 100px;
+  padding: 5px;
+}
+
+
+
+
+
+
 
 
 

@@ -14,6 +14,14 @@
 //= require jquery_ujs
 //= require_tree .
 
+function showLoading() {
+  $('#loader').fadeIn();
+}
+
+function endLoading() {
+  $('#loader').fadeOut();
+}
+
 $(function(){ 
     $('a#edit_back').click(function(ev){
         ev.preventDefault();

@@ -50,6 +50,7 @@ $(function(){
     //Gets current location coordinates  
     function getLocation()
     {
+      showLoading();
       getUserLocations();
 
       if (navigator.geolocation)
@@ -109,6 +110,7 @@ $(function(){
       
       generate_list_by_distance(cur_loc);
       populateSideTab(sorted_locs_by_distance);
+      endLoading();
       
     }
 
@@ -781,6 +783,8 @@ $(function(){
   <input type="text" class="search_field" placeholder="search address">
   <input type="submit" id="search_btn" value="Search">
 </div>
+
+<img src="loader.gif" id="loader" class="hidden">
 
 <div id="content_box" class="hidden">
 
