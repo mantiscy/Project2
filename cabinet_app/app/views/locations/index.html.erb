@@ -91,7 +91,7 @@ $(function(){
 
       var mapOptions = {
           center: new google.maps.LatLng(myLocation.lat(),myLocation.lng()),
-          zoom: 14,
+          zoom: 11,
           streetViewControl: false,
           mapTypeControl: false,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -693,10 +693,10 @@ $(function(){
     $('#loc_net_list').html('');
     for(var i=0; i<locations.length; i++)
     {
-      $('#loc_net_list').append( '<div class="net_info" id=' + locations[i].id + '><table><tr class="net_nickname"><td class="boldify">Nickname:</td><td>' + locations[i].name + '</td></tr><tr class="net_realname"><td class="boldify">Network:</td><td>' + locations[i].address + '</td></tr><tr class="net_pass"><td class="boldify">Password:</td><td>' + locations[i].pwd + '</td></tr><tr class="net_distance"><td class="boldify">Distance:</td><td>' + Math.round((locations[i].distance) * 100)/100 + "km</td></tr></table><input type='submit' id='edit_from_list_btn' value='Edit'><input type='submit' id='delete_from_list_btn' value='Delete'><p id='fromlist_sharingStuff'><input type='text' class='fromlist_share_email_field' placeholder='enter friend&#39s email'> " + "<a href=# class='start_share' id='share_from_list_btn'>Share</a></p></div></div></div>" );
+      $('#loc_net_list').append( '<div class="net_info" id=' + locations[i].id + '><table><tr class="net_nickname"><td class="boldify">Nickname:</td><td>' + locations[i].name + '</td></tr><tr class="net_realname"><td class="boldify">Network:</td><td>' + locations[i].address + '</td></tr><tr class="net_pass"><td class="boldify">Password:</td><td>' + locations[i].pwd + '</td></tr><tr class="net_distance"><td class="boldify">Distance:</td><td>' + Math.round((locations[i].distance) * 100)/100 + "km</td></tr></table><input type='submit' class='edit_from_list_btn' value='Edit'><input type='submit' class='delete_from_list_btn' value='Delete'><p id='fromlist_sharingStuff'><input type='text' class='fromlist_share_email_field' placeholder='enter friend&#39s email'> " + "<a href=# class='start_share' class='share_from_list_btn'>Share</a></p></div></div></div>" );
     }
 
-    $('#edit_from_list_btn').click(function(e) {
+    $('.edit_from_list_btn').click(function(e) {
           var div = $(this).closest('div');
           var id = div[0].id;
           console.log(id);
@@ -704,12 +704,12 @@ $(function(){
           editNetwork(id);
       });
 
-    $('#delete_from_list_btn').click(function(e) {
+    $('.delete_from_list_btn').click(function(e) {
           var div = $(this).closest('div');
           deleteNetwork(div[0].id);
       });
 
-    $('#share_from_list_btn').click(function(e) {
+    $('.share_from_list_btn').click(function(e) {
         var div = $(this).closest('div');
         var email = $('.fromlist_share_email_field').val();
         shareNetwork(div[0].id, email);
