@@ -5,7 +5,7 @@ gem 'rails', '3.2.16'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'high_voltage', '~> 2.1.0'
@@ -20,6 +20,11 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'letter_opener'
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg'
 end
 
 # Gems used only for assets and not required
